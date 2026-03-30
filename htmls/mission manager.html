@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로봇 미션/태스크 관리 시뮬레이터</title>
+<style>
+:root{
+  --bg1:#ffffff;--bg2:#f5f5f4;--bg3:#eeeeec;
+  --tx1:#1a1a1a;--tx2:#6b6b6b;--tx3:#9b9b9b;
+  --bd1:rgba(0,0,0,0.15);--bd2:rgba(0,0,0,0.08);
+  --info-bg:#e6f1fb;--info-tx:#185fa5;--info-bd:#85b7eb;
+  --success-bg:#eaf3de;--success-tx:#3b6d11;
+  --danger-bg:#fcebeb;--danger-tx:#a32d2d;
+  --warning-bg:#faeeda;--warning-tx:#854f0b;
+  --purple-bg:#eeedfe;--purple-tx:#534ab7;--purple-bd:#afa9ec;
+  --teal:#1D9E75;--teal-bg:#E1F5EE;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --radius:8px;--radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg1:#1e1e1e;--bg2:#2a2a2a;--bg3:#333333;
+    --tx1:#e0e0e0;--tx2:#a0a0a0;--tx3:#707070;
+    --bd1:rgba(255,255,255,0.15);--bd2:rgba(255,255,255,0.08);
+    --info-bg:#0c447c;--info-tx:#b5d4f4;--info-bd:#378add;
+    --success-bg:#27500a;--success-tx:#c0dd97;
+    --danger-bg:#501313;--danger-tx:#f7c1c1;
+    --warning-bg:#412402;--warning-tx:#fac775;
+    --purple-bg:#26215c;--purple-tx:#cecbf6;--purple-bd:#7f77dd;
+    --teal:#5DCAA5;--teal-bg:#085041;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--tx1);background:var(--bg3);padding:20px;line-height:1.5}
+h1{font-size:18px;font-weight:600;margin-bottom:4px}
+.subtitle{font-size:13px;color:var(--tx2);margin-bottom:16px}
+.container{max-width:800px;margin:0 auto;background:var(--bg1);border-radius:var(--radius-lg);padding:20px;border:0.5px solid var(--bd1)}
+.tab-bar{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:6px 14px;font-size:13px;border:0.5px solid var(--bd1);border-radius:var(--radius);background:var(--bg1);cursor:pointer;color:var(--tx2);transition:all .15s;font-family:var(--font)}
+.tab:hover{background:var(--bg2)}
+.tab.active{background:var(--info-bg);color:var(--info-tx);border-color:var(--info-bd)}
+.panel{display:none}.panel.active{display:block}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--tx2)}
+.legend-item{display:flex;align-items:center;gap:4px}
+.legend-dot{width:10px;height:10px;border-radius:3px}
+.sim-layout{display:flex;gap:12px;align-items:flex-start}
+.side-controls{display:flex;flex-direction:column;gap:6px;min-width:72px}
+.side-controls button{padding:6px 10px;font-size:12px;border:0.5px solid var(--bd1);border-radius:var(--radius);background:var(--bg1);cursor:pointer;color:var(--tx1);font-family:var(--font);transition:all .1s;white-space:nowrap;width:100%}
+.side-controls button:hover{background:var(--bg2)}
+.side-controls button:active{transform:scale(0.98)}
+.side-controls .counter{font-size:11px;color:var(--tx3);text-align:center;margin-top:2px}
+.sim-main{flex:1;min-width:0}
+.log{margin-bottom:12px;padding:10px;background:var(--bg2);border-radius:var(--radius);height:110px;overflow-y:scroll;font-size:11px;line-height:1.8;color:var(--tx2);border:0.5px solid var(--bd1)}
+.log-entry{padding:2px 0;border-bottom:0.5px solid var(--bd2)}.log-entry:last-child{border-bottom:none}
+.log .tag{font-size:9px;padding:1px 5px;border-radius:3px;margin-right:4px;font-weight:600;vertical-align:middle}
+.log .tag-m{background:var(--teal-bg);color:var(--teal)}
+.log .tag-t{background:var(--info-bg);color:var(--info-tx)}
+.log .tag-b{background:var(--bg2);color:var(--tx2)}
+.log .tag-p{background:var(--warning-bg);color:var(--warning-tx)}
+.log .tag-x{background:var(--purple-bg);color:var(--purple-tx)}
+.log .ok{color:var(--success-tx);font-weight:600}
+.log .fail{color:var(--danger-tx);font-weight:600}
+.log .warn{color:var(--warning-tx);font-weight:600}
+.log .info{color:var(--info-tx);font-weight:600}
+.scene{padding:16px;border:0.5px solid var(--bd1);border-radius:var(--radius-lg);background:var(--bg1);overflow-x:auto}
+.layer-label{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap;display:inline-block}
+.layer-label.l-mission{background:var(--teal);color:#ffffff}
+.layer-label.l-task{background:var(--info-bg);color:var(--info-tx)}
+.layer-label.l-beh{background:var(--bg2);color:var(--tx2)}
+.layer-label.l-pair{background:var(--warning-bg);color:var(--warning-tx)}
+.layer-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.layer-name{font-size:13px;font-weight:500;color:var(--tx1)}
+.status-badge{font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600;margin-left:4px}
+.s-pending{background:var(--bg2);color:var(--tx3)}
+.s-running{background:var(--info-bg);color:var(--info-tx)}
+.s-succeeded,.s-completed{background:var(--success-bg);color:var(--success-tx)}
+.s-failed{background:var(--danger-bg);color:var(--danger-tx)}
+.s-cancelled{background:var(--bg2);color:var(--tx3);text-decoration:line-through}
+.s-skipped{background:var(--warning-bg);color:var(--warning-tx)}
+.s-suspended{background:var(--purple-bg);color:var(--purple-tx)}
+.mission-block{padding:14px;border:2px solid var(--teal);border-radius:var(--radius);margin-bottom:10px;margin-top:8px;background:color-mix(in srgb,var(--teal-bg) 40%,var(--bg1))}
+.mission-block.m-cancelled{opacity:.45}
+.task-group{margin-left:24px;padding:10px 12px;border-left:3px solid var(--info-bd);margin-bottom:8px;border-radius:0 var(--radius) var(--radius) 0;background:color-mix(in srgb,var(--info-bg) 35%,var(--bg1))}
+.beh-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;margin-left:20px}
+.beh-item{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;border:0.5px solid transparent;white-space:nowrap;transition:all .2s}
+.beh-item.pending{background:var(--bg2);color:var(--tx3)}
+.beh-item.running{background:var(--info-bg);color:var(--info-tx);border-color:var(--info-bd)}
+.beh-item.succeeded{background:var(--success-bg);color:var(--success-tx)}
+.beh-item.failed{background:var(--danger-bg);color:var(--danger-tx)}
+.beh-item.cancelled{background:var(--bg2);color:var(--tx3);text-decoration:line-through}
+.beh-item.skipped{background:var(--warning-bg);color:var(--warning-tx);font-style:italic}
+.pair-group{margin-left:24px;padding:10px 12px;border-left:3px dashed var(--warning-tx);margin-bottom:8px;border-radius:0 var(--radius) var(--radius) 0;background:color-mix(in srgb,var(--warning-bg) 25%,var(--bg1))}
+.extra-group{margin-left:24px;padding:10px 12px;border-left:3px solid var(--purple-bd);margin-bottom:8px;border-radius:0 var(--radius) var(--radius) 0;background:color-mix(in srgb,var(--purple-bg) 25%,var(--bg1))}
+.arrow-down{margin-left:36px;color:var(--tx3);font-size:12px;margin:2px 0}
+.struct-section{margin-bottom:20px;padding:16px;border:0.5px solid var(--bd1);border-radius:var(--radius-lg);background:var(--bg1)}
+.struct-section h2{font-size:15px;font-weight:600;margin-bottom:12px}
+.struct-tree{font-size:13px;color:var(--tx2);line-height:2}
+.struct-tree .lvl0{font-weight:600;color:var(--teal)}
+.struct-tree .lvl1{margin-left:24px;font-weight:600;color:var(--info-tx)}
+.struct-tree .lvl2{margin-left:48px}
+.struct-tree .arrow{color:var(--tx3)}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>로봇 미션/태스크 관리 시뮬레이터</h1>
+<p class="subtitle">미션(Mission) → 태스크(Task) → 비헤이비어(Behavior) 3중 큐 구조</p>
+
+<div class="struct-section">
+<h2>구조 개요</h2>
+<div class="struct-tree">
+<div class="lvl0">📦 미션 큐 — 미션들이 담긴 최상위 큐</div>
+<div class="lvl1"><span class="arrow">└─</span> 📋 미션 (= 태스크 큐) — 태스크들이 담긴 큐</div>
+<div class="lvl2"><span class="arrow">├─</span> ⚙️ 태스크 (= 비헤이비어 큐) — 비헤이비어(.xml)들이 담긴 큐</div>
+<div class="lvl2"><span class="arrow">├─</span> ⚙️ 태스크 (= 비헤이비어 큐)</div>
+<div class="lvl2"><span class="arrow">└─</span> 🔄 Pair 태스크 — 마지막 태스크의 복귀용 쌍</div>
+</div>
+</div>
+
+<div class="tab-bar" id="tabs"></div>
+<div id="panels"></div>
+</div>
+
+<script>
+var S=[
+  {id:'normal',name:'예시 1: 정상 배송',desc:'미션 하나가 모든 태스크를 성공적으로 완료하고 pair 태스크로 복귀하는 기본 흐름',
+   missions:[{name:'102동 101호 배송',tasks:[
+     {name:'적재 장소 이동',bh:['주차장이동','적재소도착','물건수령']},
+     {name:'지하주차장→102동',bh:['주차장진입','주차장주행','102동도착']},
+     {name:'자동문→로비',bh:['자동문접근','문열림요청','통과이동','로비도착']},
+     {name:'1층→10층',bh:['EV호출','문열림대기','탑승이동','층선택','하차']},
+     {name:'101호 전달',bh:['복도주행','호실도착','도착알림','물건전달']}
+   ],pair:{name:'충전소 복귀',bh:['EV이동(→1층)','자동문통과','주차장이동','충전소도착']}}],
+   steps:[
+     {mi:0,ti:0,bi:0,s:'running'},{mi:0,ti:0,bi:0,s:'succeeded'},{mi:0,ti:0,bi:1,s:'running'},{mi:0,ti:0,bi:1,s:'succeeded'},{mi:0,ti:0,bi:2,s:'running'},{mi:0,ti:0,bi:2,s:'succeeded'},{mi:0,ti:0,td:'succeeded'},
+     {mi:0,ti:1,bi:0,s:'running'},{mi:0,ti:1,bi:0,s:'succeeded'},{mi:0,ti:1,bi:1,s:'running'},{mi:0,ti:1,bi:1,s:'succeeded'},{mi:0,ti:1,bi:2,s:'running'},{mi:0,ti:1,bi:2,s:'succeeded'},{mi:0,ti:1,td:'succeeded'},
+     {mi:0,ti:2,bi:0,s:'running'},{mi:0,ti:2,bi:0,s:'succeeded'},{mi:0,ti:2,bi:1,s:'running'},{mi:0,ti:2,bi:1,s:'succeeded'},{mi:0,ti:2,bi:2,s:'running'},{mi:0,ti:2,bi:2,s:'succeeded'},{mi:0,ti:2,bi:3,s:'running'},{mi:0,ti:2,bi:3,s:'succeeded'},{mi:0,ti:2,td:'succeeded'},
+     {mi:0,ti:3,bi:0,s:'running'},{mi:0,ti:3,bi:0,s:'succeeded'},{mi:0,ti:3,bi:1,s:'running'},{mi:0,ti:3,bi:1,s:'succeeded'},{mi:0,ti:3,bi:2,s:'running'},{mi:0,ti:3,bi:2,s:'succeeded'},{mi:0,ti:3,bi:3,s:'running'},{mi:0,ti:3,bi:3,s:'succeeded'},{mi:0,ti:3,bi:4,s:'running'},{mi:0,ti:3,bi:4,s:'succeeded'},{mi:0,ti:3,td:'succeeded'},
+     {mi:0,ti:4,bi:0,s:'running'},{mi:0,ti:4,bi:0,s:'succeeded'},{mi:0,ti:4,bi:1,s:'running'},{mi:0,ti:4,bi:1,s:'succeeded'},{mi:0,ti:4,bi:2,s:'running'},{mi:0,ti:4,bi:2,s:'succeeded'},{mi:0,ti:4,bi:3,s:'running'},{mi:0,ti:4,bi:3,s:'succeeded'},{mi:0,ti:4,td:'succeeded'},
+     {mi:0,ms:'completed',msg:'태스크 큐 완료 → pair 태스크 시작'},
+     {mi:0,pi:0,s:'running'},{mi:0,pi:0,s:'succeeded'},{mi:0,pi:1,s:'running'},{mi:0,pi:1,s:'succeeded'},{mi:0,pi:2,s:'running'},{mi:0,pi:2,s:'succeeded'},{mi:0,pi:3,s:'running'},{mi:0,pi:3,s:'succeeded'},
+     {mi:0,pd:'succeeded',msg:'Pair 태스크 완료'},{mi:0,md:'completed',msg:'미션 최종 종료 (Completed)'}
+   ]},
+  {id:'fail',name:'예시 2: 실패 후 복귀',desc:'엘리베이터 탑승 실패 → 타임아웃(60초) → 나머지 Cancelled → pair 태스크 복귀 (앞부분 Skipped)',
+   missions:[{name:'102동 101호 배송',tasks:[
+     {name:'적재 장소 이동',bh:['주차장이동','적재소도착','물건수령']},
+     {name:'지하주차장→102동',bh:['주차장진입','주차장주행','102동도착']},
+     {name:'자동문→로비',bh:['자동문접근','문열림요청','통과이동','로비도착']},
+     {name:'1층→10층',bh:['EV호출','문열림대기','탑승이동','층선택','하차']},
+     {name:'101호 전달',bh:['복도주행','호실도착','도착알림','물건전달']}
+   ],pair:{name:'충전소 복귀',bh:['EV이동(→1층)','자동문통과','주차장이동','충전소도착']}}],
+   steps:[
+     {mi:0,ti:0,td:'succeeded',msg:'태스크1 완료'},{mi:0,ti:1,td:'succeeded',msg:'태스크2 완료'},{mi:0,ti:2,td:'succeeded',msg:'태스크3 완료'},
+     {mi:0,ti:3,bi:0,s:'running'},{mi:0,ti:3,bi:0,s:'succeeded'},{mi:0,ti:3,bi:1,s:'running'},{mi:0,ti:3,bi:1,s:'succeeded'},
+     {mi:0,ti:3,bi:2,s:'running'},{mi:0,ti:3,bi:2,s:'failed',msg:'탑승이동 BT Retry 3회 후 최종 실패'},
+     {mi:0,ms:'suspended',msg:'미션 Suspended — 운영자 응답 대기 (60초)'},
+     {msg:'⏱ 60초 경과, 운영자 응답 없음'},
+     {mi:0,ti:3,bi:3,s:'cancelled'},{mi:0,ti:3,bi:4,s:'cancelled'},{mi:0,ti:3,td:'failed',msg:'태스크4 Failed'},
+     {mi:0,ti:4,td:'cancelled',msg:'태스크5 Cancelled'},
+     {mi:0,ms:'failed',msg:'미션 Failed → pair 태스크 시작'},
+     {mi:0,pi:0,s:'skipped',msg:'로봇이 1층 → EV이동 Skipped'},
+     {mi:0,pi:1,s:'running'},{mi:0,pi:1,s:'succeeded'},{mi:0,pi:2,s:'running'},{mi:0,pi:2,s:'succeeded'},{mi:0,pi:3,s:'running'},{mi:0,pi:3,s:'succeeded'},
+     {mi:0,pd:'succeeded',msg:'Pair 태스크 완료'},{mi:0,md:'failed',msg:'미션 최종 종료 (Failed)'}
+   ]},
+  {id:'skip',name:'예시 3: 운영자 건너뛰기',desc:'도착알림 실패 → 운영자가 Skip 선택 → 물건전달 이어서 진행',
+   missions:[{name:'102동 101호 배송',tasks:[
+     {name:'적재~10층 이동',bh:['(생략)']},
+     {name:'101호 전달',bh:['복도주행','호실도착','도착알림','물건전달']}
+   ],pair:{name:'충전소 복귀',bh:['EV이동','자동문통과','주차장이동','충전소도착']}}],
+   steps:[
+     {mi:0,ti:0,td:'succeeded',msg:'적재~10층 이동 완료'},
+     {mi:0,ti:1,bi:0,s:'running'},{mi:0,ti:1,bi:0,s:'succeeded'},{mi:0,ti:1,bi:1,s:'running'},{mi:0,ti:1,bi:1,s:'succeeded'},
+     {mi:0,ti:1,bi:2,s:'running'},{mi:0,ti:1,bi:2,s:'failed',msg:'도착알림 실패 (초인종 연동 실패)'},
+     {mi:0,ms:'suspended',msg:'미션 Suspended — 운영자 응답 대기 (120초)'},
+     {msg:'👤 운영자 응답: "건너뛰기"'},
+     {mi:0,ti:1,bi:2,s:'skipped',msg:'도착알림 → Skipped'},
+     {mi:0,ms:'running',msg:'미션 재개'},
+     {mi:0,ti:1,bi:3,s:'running'},{mi:0,ti:1,bi:3,s:'succeeded'},{mi:0,ti:1,td:'succeeded',msg:'태스크2 완료'},
+     {mi:0,ms:'completed',msg:'태스크 큐 완료 → pair 태스크 시작'},
+     {mi:0,pi:0,s:'running'},{mi:0,pi:0,s:'succeeded'},{mi:0,pi:1,s:'running'},{mi:0,pi:1,s:'succeeded'},{mi:0,pi:2,s:'running'},{mi:0,pi:2,s:'succeeded'},{mi:0,pi:3,s:'running'},{mi:0,pi:3,s:'succeeded'},
+     {mi:0,pd:'succeeded'},{mi:0,md:'completed',msg:'미션 최종 종료 (Completed)'}
+   ]},
+  {id:'insert',name:'예시 4: Suspend 후 삽입',desc:'수동 Suspend → 비헤이비어 끼워넣기 → Resume 시 멱등성으로 이어서 동작',
+   missions:[{name:'102동 101호 배송',tasks:[
+     {name:'적재 장소 이동',bh:['주차장이동','적재소도착','물건수령']},
+     {name:'지하주차장→102동',bh:['주차장진입','주차장주행','102동도착']},
+     {name:'자동문→로비',bh:['자동문접근','문열림요청','통과이동','로비도착']},
+     {name:'1층→10층',bh:['EV호출','문열림대기','탑승이동','층선택','하차']},
+     {name:'101호 전달',bh:['복도주행','호실도착','도착알림','물건전달']}
+   ],pair:{name:'충전소 복귀',bh:['EV이동','자동문통과','주차장이동','충전소도착']}}],
+   steps:[
+     {mi:0,ti:0,td:'succeeded',msg:'태스크1 완료'},{mi:0,ti:1,td:'succeeded',msg:'태스크2 완료'},
+     {mi:0,ti:2,bi:0,s:'running'},{mi:0,ti:2,bi:0,s:'succeeded'},
+     {mi:0,ti:2,bi:1,s:'running',msg:'문열림요청 실행 중...'},
+     {msg:'👤 운영자가 Suspend 요청'},
+     {mi:0,ti:2,bi:1,s:'cancelled',msg:'문열림요청 Cancel'},
+     {mi:0,ms:'suspended',msg:'미션 Suspended — 큐 편집 가능'},
+     {msg:'👤 태스크2(Completed)과 태스크3(Suspended) 사이에 "긴급상태점검" 삽입'},
+     {mi:0,ins:{name:'긴급상태점검',afterTask:1},msg:'태스크 큐에 긴급상태점검 삽입됨 (태스크2 뒤)'},
+     {msg:'👤 Resume 요청 (문열림요청 → 재실행)'},
+     {mi:0,ms:'running',msg:'미션 재개 — 큐를 처음부터 순회'},
+     {mi:0,xi:0,s:'running',msg:'긴급상태점검 실행'},{mi:0,xi:0,s:'succeeded',msg:'긴급상태점검 완료'},
+     {mi:0,ti:2,bi:0,s:'succeeded',msg:'자동문접근 — 이미 Succeeded, 건너뜀'},
+     {mi:0,ti:2,bi:1,s:'running',msg:'문열림요청 처음부터 재실행 (멱등성)'},{mi:0,ti:2,bi:1,s:'succeeded'},
+     {mi:0,ti:2,bi:2,s:'running'},{mi:0,ti:2,bi:2,s:'succeeded'},{mi:0,ti:2,bi:3,s:'running'},{mi:0,ti:2,bi:3,s:'succeeded'},{mi:0,ti:2,td:'succeeded'},
+     {mi:0,ti:3,td:'succeeded',msg:'태스크4 완료'},{mi:0,ti:4,td:'succeeded',msg:'태스크5 완료'},
+     {mi:0,ms:'completed',msg:'태스크 큐 완료 → pair 태스크 시작'},
+     {mi:0,pd:'succeeded'},{mi:0,md:'completed',msg:'미션 최종 종료 (Completed)'}
+   ]},
+  {id:'multi',name:'예시 5: 다중 미션 실패',desc:'미션 A 실패(타임아웃 0초) → 미션 B 전체 Cancelled → pair 태스크 복귀',
+   missions:[
+     {name:'미션 A (102동)',tasks:[
+       {name:'적재 장소 이동',bh:['주차장이동','적재소도착','물건수령']},
+       {name:'지하주차장→102동',bh:['주차장진입','주차장주행','102동도착']}
+     ],pair:{name:'Pair A: 복귀',bh:['주차장이동','충전소도착']}},
+     {name:'미션 B (103동)',tasks:[
+       {name:'적재→주차장→103동',bh:['주차장이동','주차장주행','103동도착']}
+     ],pair:{name:'Pair B: 복귀',bh:['주차장이동','충전소도착']}}
+   ],
+   steps:[
+     {mi:0,ti:0,td:'succeeded',msg:'미션A 태스크1 완료'},
+     {mi:0,ti:1,bi:0,s:'running'},{mi:0,ti:1,bi:0,s:'succeeded'},
+     {mi:0,ti:1,bi:1,s:'running'},{mi:0,ti:1,bi:1,s:'failed',msg:'주차장주행 실패 (경로 장애물 감지)'},
+     {msg:'타임아웃 0초 → 즉시 Failed'},
+     {mi:0,ti:1,bi:2,s:'cancelled'},{mi:0,ti:1,td:'failed'},
+     {mi:0,ms:'failed',msg:'미션 A Failed'},
+     {mi:1,ms:'cancelled',msg:'미션 B 전체 Cancelled'},
+     {mi:0,pi:0,s:'running'},{mi:0,pi:0,s:'succeeded'},{mi:0,pi:1,s:'running'},{mi:0,pi:1,s:'succeeded'},
+     {mi:0,pd:'succeeded',msg:'Pair A 태스크 완료'},
+     {mi:0,md:'failed',msg:'미션 A 최종 종료 (Failed). 미션 B는 Cancelled.'}
+   ]}
+];
+
+var R={};
+function clone(o){return JSON.parse(JSON.stringify(o))}
+S.forEach(function(sc){R[sc.id]={step:0,data:clone(sc.missions)};});
+
+var tabBar=document.getElementById('tabs');
+var panelsEl=document.getElementById('panels');
+
+S.forEach(function(sc,i){
+  var t=document.createElement('button');
+  t.className='tab'+(i===0?' active':'');
+  t.textContent=sc.name;
+  t.setAttribute('data-id',sc.id);
+  t.onclick=function(){
+    var id=this.getAttribute('data-id');
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('active');});
+    this.classList.add('active');
+    document.getElementById('p-'+id).classList.add('active');
+  };
+  tabBar.appendChild(t);
+
+  var p=document.createElement('div');
+  p.className='panel'+(i===0?' active':'');
+  p.id='p-'+sc.id;
+  p.innerHTML='<p style="font-size:13px;color:var(--tx2);margin-bottom:10px">'+sc.desc+'</p>'
+    +'<div class="legend">'
+    +'<div class="legend-item"><div class="legend-dot" style="background:var(--bg2)"></div>pending</div>'
+    +'<div class="legend-item"><div class="legend-dot" style="background:var(--info-bg)"></div>running</div>'
+    +'<div class="legend-item"><div class="legend-dot" style="background:var(--success-bg)"></div>succeeded</div>'
+    +'<div class="legend-item"><div class="legend-dot" style="background:var(--danger-bg)"></div>failed</div>'
+    +'<div class="legend-item"><div class="legend-dot" style="background:var(--bg2);opacity:.5"></div>cancelled</div>'
+    +'<div class="legend-item"><div class="legend-dot" style="background:var(--warning-bg)"></div>skipped</div>'
+    +'<div class="legend-item"><div class="legend-dot" style="background:var(--purple-bg)"></div>suspended</div>'
+    +'</div>'
+    +'<div class="sim-layout">'
+    +'<div class="side-controls">'
+    +'<button onclick="doBack(\''+sc.id+'\')">← 이전</button>'
+    +'<button onclick="doFwd(\''+sc.id+'\')">다음 →</button>'
+    +'<button onclick="doAuto(\''+sc.id+'\')" id="auto-'+sc.id+'">▶ 재생</button>'
+    +'<button onclick="doReset(\''+sc.id+'\')">초기화</button>'
+    +'<div class="counter" id="ct-'+sc.id+'">0 / '+sc.steps.length+'</div>'
+    +'</div>'
+    +'<div class="sim-main">'
+    +'<div class="log" id="log-'+sc.id+'"><div class="log-entry log-init"><span class="time">--</span><span style="color:var(--tx3)">"다음 →" 버튼을 눌러 시뮬레이션을 시작하세요</span></div></div>'
+    +'<div class="scene" id="sc-'+sc.id+'"></div>'
+    +'</div></div>';
+  panelsEl.appendChild(p);
+});
+
+S.forEach(function(sc){render(sc.id);});
+
+function render(id){
+  var sc=S.find(function(s){return s.id===id;});
+  var r=R[id],d=r.data;
+  var el=document.getElementById('sc-'+id);
+  var h='<div style="margin-bottom:6px"><span class="layer-label l-mission">미션 큐</span></div>';
+
+  d.forEach(function(m,mi){
+    var ms=m._s||'pending';
+    var cc=ms==='cancelled'?' m-cancelled':'';
+    h+='<div class="mission-block'+cc+'">';
+    h+='<div class="layer-header"><span class="layer-label l-mission">미션 '+(mi+1)+'</span><span class="layer-name">'+m.name+'</span><span class="status-badge s-'+ms+'">'+ms+'</span></div>';
+
+    if(ms!=='cancelled'){
+      h+='<div style="margin:8px 0 4px 4px"><span class="layer-label l-task">태스크 큐</span></div>';
+
+      m.tasks.forEach(function(t,ti){
+        var ts=t._s||'pending';
+        h+='<div class="task-group"><div class="layer-header"><span class="layer-label l-task">태스크 '+(ti+1)+'</span><span class="layer-name" style="font-size:12px">'+t.name+'</span><span class="status-badge s-'+ts+'">'+ts+'</span></div>';
+        if(ts!=='cancelled'){
+          h+='<div style="margin:4px 0 2px 4px"><span class="layer-label l-beh" style="font-size:10px">비헤이비어 큐</span></div><div class="beh-row">';
+          t.bh.forEach(function(b,bi){
+            var bs=(t._bs&&t._bs[bi])?t._bs[bi]:'pending';
+            h+='<div class="beh-item '+bs+'">'+b+'</div>';
+          });
+          h+='</div>';
+        }
+        h+='</div>';
+
+        if(m._extras){
+          m._extras.forEach(function(x){
+            if((x._afterTask||0)===ti){
+              h+='<div class="arrow-down">↓</div>';
+              h+='<div class="extra-group"><div class="layer-header"><span class="layer-label" style="background:var(--purple-bg);color:var(--purple-tx)">삽입</span><span class="layer-name" style="font-size:12px">'+x.name+'</span><span class="status-badge s-'+(x._s||'pending')+'">'+(x._s||'pending')+'</span></div></div>';
+            }
+          });
+        }
+
+        if(ti<m.tasks.length-1)h+='<div class="arrow-down">↓</div>';
+      });
+
+      if(m.pair&&m.pair._s){
+        var lastTaskName='';m.tasks.forEach(function(t){if(t._s&&t._s!=='pending'&&t._s!=='cancelled')lastTaskName=t.name;});
+        h+='<div class="arrow-down">↓ pair 태스크</div>';
+        h+='<div class="pair-group"><div class="layer-header"><span class="layer-label l-pair">Pair</span><span class="layer-name" style="font-size:12px">'+m.pair.name+' <span style="color:var(--tx3);font-weight:400">('+lastTaskName+'의 pair)</span></span><span class="status-badge s-'+m.pair._s+'">'+m.pair._s+'</span></div>';
+        h+='<div style="margin:4px 0 2px 4px"><span class="layer-label l-beh" style="font-size:10px">비헤이비어 큐</span></div><div class="beh-row">';
+        m.pair.bh.forEach(function(b,bi){
+          var bs=(m.pair._bs&&m.pair._bs[bi])?m.pair._bs[bi]:'pending';
+          h+='<div class="beh-item '+bs+'">'+b+'</div>';
+        });
+        h+='</div></div>';
+      }
+    }
+    h+='</div>';
+  });
+
+  el.innerHTML=h;
+  document.getElementById('ct-'+id).textContent=r.step+' / '+sc.steps.length;
+}
+
+function addLog(id,msg){
+  var r=R[id];
+  var el=document.getElementById('log-'+id);
+  if(!el)return;
+  var init=el.querySelector('.log-init');
+  if(init)el.removeChild(init);
+  var d=document.createElement('div');
+  d.className='log-entry';
+  var c='';
+  if(msg.indexOf('실패')>=0||msg.indexOf('Failed')>=0)c='fail';
+  else if(msg.indexOf('Cancel')>=0||msg.indexOf('타임아웃')>=0)c='warn';
+  else if(msg.indexOf('완료')>=0||msg.indexOf('Completed')>=0||msg.indexOf('succeeded')>=0)c='ok';
+  else if(msg.indexOf('운영자')>=0||msg.indexOf('삽입')>=0||msg.indexOf('Suspend')>=0||msg.indexOf('재개')>=0)c='info';
+  var step=r.step<10?'0'+r.step:''+r.step;
+  d.innerHTML='<span class="time">'+step+'</span><span class="'+c+'">'+msg+'</span>';
+  el.appendChild(d);
+  el.scrollTop=el.scrollHeight;
+}
+
+function mkLog(tag,tagClass,msg){
+  return '<span class="tag '+tagClass+'">'+tag+'</span>'+msg;
+}
+
+function exec(id){
+  var sc=S.find(function(s){return s.id===id;});
+  var r=R[id];
+  if(r.step>=sc.steps.length)return;
+  var s=sc.steps[r.step];
+  var mi=(s.mi!==undefined)?s.mi:0;
+  var m=r.data[mi];
+
+  if(s.md){m._s=s.md;addLog(id,mkLog('미션','tag-m',s.msg||m.name+' → '+s.md));r.step++;return;}
+  if(s.ms){
+    m._s=s.ms;
+    if(s.ms==='suspended'){m.tasks.forEach(function(t){if(t._s==='running')t._s='suspended';});}
+    if(s.ms==='running'){m.tasks.forEach(function(t){if(t._s==='suspended')t._s='running';});}
+    addLog(id,mkLog('미션','tag-m',s.msg||m.name+' → '+s.ms));r.step++;return;
+  }
+  if(s.pd){m.pair._s=s.pd;var lastTask='';m.tasks.forEach(function(t){if(t._s&&t._s!=='pending'&&t._s!=='cancelled')lastTask=t.name;});addLog(id,mkLog('Pair','tag-p',s.msg||m.pair.name+' ('+lastTask+'의 pair) → '+s.pd));r.step++;return;}
+  if(s.pi!==undefined){
+    if(!m.pair._s){
+      m.pair._s='running';
+      var lastTask2='';m.tasks.forEach(function(t){if(t._s&&t._s!=='pending'&&t._s!=='cancelled')lastTask2=t.name;});
+      addLog(id,mkLog('Pair','tag-p',m.pair.name+' 시작 ('+lastTask2+'의 pair)'));
+    }
+    if(!m.pair._bs)m.pair._bs=m.pair.bh.map(function(){return 'pending';});
+    m.pair._bs[s.pi]=s.s;
+    addLog(id,mkLog('Pair','tag-p',s.msg||m.pair.bh[s.pi]+' → '+s.s));r.step++;return;
+  }
+  if(s.ins){
+    if(!m._extras)m._extras=[];
+    m._extras.push({name:s.ins.name,_s:'pending',_afterTask:s.ins.afterTask||0});
+    addLog(id,mkLog('삽입','tag-x',s.msg||s.ins.name+' 삽입됨'));r.step++;return;
+  }
+  if(s.xi!==undefined){
+    m._extras[s.xi]._s=s.s;
+    addLog(id,mkLog('삽입','tag-x',s.msg||m._extras[s.xi].name+' → '+s.s));r.step++;return;
+  }
+  if(s.td!==undefined){
+    var t=m.tasks[s.ti];
+    t._s=s.td;
+    if(!t._bs)t._bs=t.bh.map(function(){return 'pending';});
+    if(s.td==='succeeded')t._bs=t._bs.map(function(x){return x==='pending'?'succeeded':x;});
+    if(s.td==='cancelled')t._bs=t._bs.map(function(x){return x==='pending'?'cancelled':x;});
+    addLog(id,mkLog('태스크','tag-t',s.msg||t.name+' → '+s.td));r.step++;return;
+  }
+  if(s.bi!==undefined&&s.ti!==undefined){
+    var t2=m.tasks[s.ti];
+    if(!t2._bs)t2._bs=t2.bh.map(function(){return 'pending';});
+    if(!t2._s||t2._s==='pending')t2._s='running';
+    if(!m._s||m._s==='pending')m._s='running';
+    t2._bs[s.bi]=s.s;
+    addLog(id,mkLog('비헤이비어','tag-b',s.msg||t2.bh[s.bi]+' → '+s.s));r.step++;return;
+  }
+  if(s.msg){addLog(id,s.msg);r.step++;return;}
+  r.step++;
+}
+
+function doFwd(id){exec(id);render(id);}
+function doBack(id){
+  var r=R[id];
+  if(r.step<=0)return;
+  var target=r.step-1;
+  r.step=0;
+  r.data=clone(S.find(function(s){return s.id===id;}).missions);
+  var logEl=document.getElementById('log-'+id);
+  logEl.innerHTML='';
+  for(var i=0;i<target;i++)exec(id);
+  render(id);
+}
+function doReset(id){
+  var r=R[id];
+  r.step=0;
+  r.data=clone(S.find(function(s){return s.id===id;}).missions);
+  document.getElementById('log-'+id).innerHTML='<div class="log-entry log-init"><span class="time">--</span><span style="color:var(--tx3)">"다음 →" 버튼을 눌러 시뮬레이션을 시작하세요</span></div>';
+  render(id);
+  if(autoTimers[id]){clearInterval(autoTimers[id]);autoTimers[id]=null;document.getElementById('auto-'+id).textContent='▶ 재생';}
+}
+var autoTimers={};
+function doAuto(id){
+  if(autoTimers[id]){clearInterval(autoTimers[id]);autoTimers[id]=null;document.getElementById('auto-'+id).textContent='▶ 재생';return;}
+  document.getElementById('auto-'+id).textContent='⏸ 정지';
+  autoTimers[id]=setInterval(function(){
+    var sc=S.find(function(s){return s.id===id;});
+    if(R[id].step>=sc.steps.length){clearInterval(autoTimers[id]);autoTimers[id]=null;document.getElementById('auto-'+id).textContent='▶ 재생';return;}
+    doFwd(id);
+  },700);
+}
+</script>
+</body>
+</html>
