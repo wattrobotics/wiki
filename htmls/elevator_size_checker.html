@@ -1051,6 +1051,7 @@ function importCSV(event) {
       }
     }
     syncUIFromState();
+    updateAccSectionState();
     renderAll();
   };
   reader.readAsText(file);
