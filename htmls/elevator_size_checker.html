@@ -968,6 +968,15 @@ function renderAccPanel() {
   document.getElementById('svgBox4').innerHTML = s;
 }
 
+function updateAccSectionState() {
+  var sec = document.getElementById('accSection');
+  if (state.accessEnabled) {
+    sec.classList.remove('section-disabled');
+  } else {
+    sec.classList.add('section-disabled');
+  }
+}
+
 /* ===== CSV 내보내기 / 불러오기 ===== */
 function getAllValues() {
   var all = {};
@@ -1110,16 +1119,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateAccSectionState();
     renderAll();
   });
-
-  function updateAccSectionState() {
-    var sec = document.getElementById('accSection');
-    if (state.accessEnabled) {
-      sec.classList.remove('section-disabled');
-    } else {
-      sec.classList.add('section-disabled');
-    }
-  }
-  updateAccSectionState();
 
   setupBtnDistInput();
   setupNumberInput2('inp_callFromFloor','callFromFloor',100,2000);
