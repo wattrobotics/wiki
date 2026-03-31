@@ -32,7 +32,6 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
 </head>
 <body>
 
-<!-- 평면도 -->
 <div class="top-bar" style="margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid #ddd;">
   <h2 style="font-size:15px;">전체 설정</h2>
   <button onclick="exportCSV()">CSV 내보내기</button>
@@ -40,6 +39,7 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
   <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="importCSV(event)">
 </div>
 
+<!-- 평면도 -->
 <div class="top-bar">
   <h2>엘리베이터 평면도 (위에서 본 모습)</h2>
   <button onclick="handleCopy()">복사</button>
@@ -72,9 +72,6 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
       <div id="accessOptions">
         <label class="radio-row"><input type="radio" name="accessBtn" value="left"> 왼쪽 벽</label>
         <label class="radio-row"><input type="radio" name="accessBtn" value="right" checked> 오른쪽 벽</label>
-        <div class="divider">
-          <div class="row"><span>안쪽 벽 거리</span><input type="number" id="inp_accessDist" value="580" min="100" max="2900" step="10"></div>
-        </div>
       </div>
     </fieldset>
   </div>
@@ -83,7 +80,7 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
   </div>
 </div>
 
-<!-- 입면도 -->
+<!-- 바깥쪽 호출 버튼 입면도 -->
 <div class="top-bar section-gap">
   <h2>바깥쪽 호출 버튼 입면도 (정면)</h2>
   <button onclick="handleCopyElev('svgBox2')">복사</button>
@@ -97,7 +94,7 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
       <div class="row"><span>문 끝 거리</span><input type="number" id="inp_btnDist" value="150" min="50" max="1000" step="10"></div>
       <div class="row"><span>바닥에서 ▼ 중앙</span><input type="number" id="inp_callFromFloor" value="900" min="100" max="2000" step="10"></div>
       <div class="row"><span>▲▼ 중심 간격</span><input type="number" id="inp_callBtnGap" value="60" min="10" max="300" step="5"></div>
-      <div class="row"><span>버튼 지름</span><input type="number" id="inp_callBtnDia" value="40" min="15" max="100" step="5"></div>
+      <div class="row"><span>버튼 지름</span><input type="number" id="inp_callBtnDia" value="30" min="15" max="100" step="5"></div>
       <div class="row"><span>벽 끝 거리 (좌우)</span><input type="number" id="inp_callFromWall" value="100" min="20" max="1000" step="10"></div>
     </fieldset>
   </div>
@@ -106,7 +103,7 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
   </div>
 </div>
 
-<!-- 안쪽 조작 버튼(층 입력 패널) 입면도 -->
+<!-- 안쪽 층 입력 패널 입면도 -->
 <div class="top-bar section-gap">
   <h2>안쪽 층 입력 패널 입면도 (정면)</h2>
   <button onclick="handleCopyElev('svgBox3')">복사</button>
@@ -124,7 +121,7 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
       <div class="row"><span>행 수</span><input type="number" id="inp_opRows" value="5" min="1" max="20" step="1"></div>
       <div class="row"><span>버튼 중심 간격 (가로)</span><input type="number" id="inp_opBtnGapX" value="40" min="15" max="100" step="5"></div>
       <div class="row"><span>버튼 중심 간격 (세로)</span><input type="number" id="inp_opBtnGapY" value="40" min="15" max="100" step="5"></div>
-      <div class="row"><span>버튼 지름</span><input type="number" id="inp_opBtnDia" value="20" min="5" max="60" step="5"></div>
+      <div class="row"><span>버튼 지름</span><input type="number" id="inp_opBtnDia" value="30" min="5" max="60" step="5"></div>
     </fieldset>
   </div>
   <div class="svg-wrap">
@@ -145,10 +142,10 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
     <fieldset>
       <legend>버튼 배열 (mm)</legend>
       <div class="row"><span>바닥에서 1행 버튼 중심</span><input type="number" id="inp_accFromFloor" value="850" min="100" max="1500" step="10"></div>
-      <div class="row"><span>앞벽(입구쪽)에서 끝열 중심</span><input type="number" id="inp_accFromFront" value="400" min="50" max="2000" step="10"></div>
-      <div class="row"><span>뒷벽(안쪽)에서 1열 중심</span><input type="number" id="inp_accFromBack" value="200" min="20" max="2000" step="10"></div>
-      <div class="row"><span>열 수</span><input type="number" id="inp_accCols" value="2" min="1" max="20" step="1"></div>
-      <div class="row"><span>행 수</span><input type="number" id="inp_accRows" value="3" min="1" max="20" step="1"></div>
+      <div class="row"><span>뒷벽(안쪽)에서 1열 중심</span><input type="number" id="inp_accFromBack" value="580" min="20" max="2000" step="10"></div>
+      <div class="row"><span>앞벽(입구쪽)에서 끝열 중심</span><span id="accFromFrontDisplay" style="color:#2e7d32;font-weight:600;">-</span></div>
+      <div class="row"><span>열 수</span><input type="number" id="inp_accCols" value="5" min="1" max="20" step="1"></div>
+      <div class="row"><span>행 수</span><input type="number" id="inp_accRows" value="2" min="1" max="20" step="1"></div>
       <div class="row"><span>버튼 중심 간격 (가로)</span><input type="number" id="inp_accBtnGapX" value="50" min="15" max="150" step="5"></div>
       <div class="row"><span>버튼 중심 간격 (세로)</span><input type="number" id="inp_accBtnGapY" value="50" min="15" max="150" step="5"></div>
       <div class="row"><span>버튼 지름</span><input type="number" id="inp_accBtnDia" value="30" min="10" max="80" step="5"></div>
@@ -163,943 +160,646 @@ legend { font-weight: 600; font-size: 12px; color: #555; }
 <script>
 var SCALE = 0.09;
 var WALL_T = 8;
+// 치수선 공통 스타일
+var DIM_C = '#607d8b';
+var DIM_W = '1';
+var DIM_REF_C = '#607d8b';  // 다른 섹션에서 가져온 값
+var DIM_AUTO_C = '#2e7d32';  // 자동 계산된 값
 
 var state = {
   w: 1600, d: 1500, doorW: 900, extWall: 300,
   btnDist: 150, outerBtn: 'right', innerBtn: 'right',
-  accessBtn: 'right', accessEnabled: true,
-  accessDist: 580, accessPanelW: 400
+  accessBtn: 'right', accessEnabled: true
 };
-
 var state2 = {
-  callFromFloor: 900, callBtnGap: 60, callBtnDia: 40,
-  callFromWall: 100
+  callFromFloor: 900, callBtnGap: 60, callBtnDia: 30, callFromWall: 100
 };
-
 var state3 = {
   opFromFloor: 1000, opFromWall: 100, opFromWall2: 100,
-  opCols: 2, opRows: 5, opBtnGapX: 40, opBtnGapY: 40, opBtnDia: 20
+  opCols: 2, opRows: 5, opBtnGapX: 40, opBtnGapY: 40, opBtnDia: 30
 };
-
 var state4 = {
-  accFromFloor: 850, accFromFront: 400, accFromBack: 200,
-  accCols: 2, accRows: 3, accBtnGapX: 50, accBtnGapY: 50, accBtnDia: 30
+  accFromFloor: 850, accFromBack: 580,
+  accCols: 5, accRows: 2, accBtnGapX: 50, accBtnGapY: 50, accBtnDia: 30
 };
 
 function px(mm) { return mm * SCALE; }
 function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
-
 function getRadio(name) {
-  var el = document.querySelector('input[name="' + name + '"]:checked');
+  var el = document.querySelector('input[name="'+name+'"]:checked');
   return el ? el.value : null;
+}
+
+/* 치수선 헬퍼 */
+function dimH(x1,x2,y) {
+  return '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="'+DIM_C+'" stroke-width="'+DIM_W+'"/>'
+    +'<line x1="'+x1+'" y1="'+(y-4)+'" x2="'+x1+'" y2="'+(y+4)+'" stroke="'+DIM_C+'" stroke-width="'+DIM_W+'"/>'
+    +'<line x1="'+x2+'" y1="'+(y-4)+'" x2="'+x2+'" y2="'+(y+4)+'" stroke="'+DIM_C+'" stroke-width="'+DIM_W+'"/>';
+}
+function dimHText(x1,x2,y,txt) {
+  return dimH(x1,x2,y)+'<text x="'+((x1+x2)/2)+'" y="'+(y-4)+'" text-anchor="middle" font-size="8" fill="'+DIM_C+'" font-weight="600">'+txt+'</text>';
+}
+function dimV(x,y1,y2) {
+  return '<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" stroke="'+DIM_C+'" stroke-width="'+DIM_W+'"/>'
+    +'<line x1="'+(x-4)+'" y1="'+y1+'" x2="'+(x+4)+'" y2="'+y1+'" stroke="'+DIM_C+'" stroke-width="'+DIM_W+'"/>'
+    +'<line x1="'+(x-4)+'" y1="'+y2+'" x2="'+(x+4)+'" y2="'+y2+'" stroke="'+DIM_C+'" stroke-width="'+DIM_W+'"/>';
+}
+function dimVText(x,y1,y2,txt) {
+  var mid=(y1+y2)/2;
+  return dimV(x,y1,y2)+'<text x="'+(x+10)+'" y="'+(mid+3)+'" text-anchor="middle" font-size="8" fill="'+DIM_C+'" font-weight="600" transform="rotate(-90,'+(x+10)+','+mid+')">'+txt+'</text>';
+}
+
+/* 점선 치수선 (다른 섹션에서 참조) */
+function dimHRef(x1,x2,y) {
+  return '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="'+DIM_REF_C+'" stroke-width="'+DIM_W+'" stroke-dasharray="4,3"/>'
+    +'<line x1="'+x1+'" y1="'+(y-4)+'" x2="'+x1+'" y2="'+(y+4)+'" stroke="'+DIM_REF_C+'" stroke-width="'+DIM_W+'"/>'
+    +'<line x1="'+x2+'" y1="'+(y-4)+'" x2="'+x2+'" y2="'+(y+4)+'" stroke="'+DIM_REF_C+'" stroke-width="'+DIM_W+'"/>';
+}
+function dimHRefText(x1,x2,y,txt) {
+  return dimHRef(x1,x2,y)+'<text x="'+((x1+x2)/2)+'" y="'+(y-4)+'" text-anchor="middle" font-size="8" fill="'+DIM_REF_C+'" font-weight="600">'+txt+'</text>';
+}
+function dimVRef(x,y1,y2) {
+  return '<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" stroke="'+DIM_REF_C+'" stroke-width="'+DIM_W+'" stroke-dasharray="4,3"/>'
+    +'<line x1="'+(x-4)+'" y1="'+y1+'" x2="'+(x+4)+'" y2="'+y1+'" stroke="'+DIM_REF_C+'" stroke-width="'+DIM_W+'"/>'
+    +'<line x1="'+(x-4)+'" y1="'+y2+'" x2="'+(x+4)+'" y2="'+y2+'" stroke="'+DIM_REF_C+'" stroke-width="'+DIM_W+'"/>';
+}
+function dimVRefText(x,y1,y2,txt) {
+  var mid=(y1+y2)/2;
+  return dimVRef(x,y1,y2)+'<text x="'+(x+10)+'" y="'+(mid+3)+'" text-anchor="middle" font-size="8" fill="'+DIM_REF_C+'" font-weight="600" transform="rotate(-90,'+(x+10)+','+mid+')">'+txt+'</text>';
+}
+
+/* 점선 초록 치수선 (자동 계산) */
+function dimHAuto(x1,x2,y) {
+  return '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="'+DIM_AUTO_C+'" stroke-width="'+DIM_W+'" stroke-dasharray="4,3"/>'
+    +'<line x1="'+x1+'" y1="'+(y-4)+'" x2="'+x1+'" y2="'+(y+4)+'" stroke="'+DIM_AUTO_C+'" stroke-width="'+DIM_W+'"/>'
+    +'<line x1="'+x2+'" y1="'+(y-4)+'" x2="'+x2+'" y2="'+(y+4)+'" stroke="'+DIM_AUTO_C+'" stroke-width="'+DIM_W+'"/>';
+}
+function dimHAutoText(x1,x2,y,txt) {
+  return dimHAuto(x1,x2,y)+'<text x="'+((x1+x2)/2)+'" y="'+(y-4)+'" text-anchor="middle" font-size="8" fill="'+DIM_AUTO_C+'" font-weight="600">'+txt+'</text>';
 }
 
 function setupNumberInput(id, key, min, maxFn) {
   var el = document.getElementById(id);
   el.addEventListener('blur', function() {
-    var max = typeof maxFn === 'function' ? maxFn() : maxFn;
+    var max = typeof maxFn==='function'?maxFn():maxFn;
     var v = Number(el.value);
-    if (isNaN(v) || el.value.trim() === '') { el.value = state[key]; return; }
-    var clamped = clamp(v, min, max);
-    state[key] = clamped;
-    el.value = clamped;
-    renderAll();
+    if (isNaN(v)||el.value.trim()===''){el.value=state[key];return;}
+    var c=clamp(v,min,max); state[key]=c; el.value=c; renderAll();
   });
-  el.addEventListener('keydown', function(e) { if (e.key === 'Enter') el.blur(); });
+  el.addEventListener('keydown', function(e){if(e.key==='Enter')el.blur();});
 }
-
 function setupNumberInput2(id, key, min, maxFn) {
   var el = document.getElementById(id);
   el.addEventListener('blur', function() {
-    var max = typeof maxFn === 'function' ? maxFn() : maxFn;
+    var max = typeof maxFn==='function'?maxFn():maxFn;
     var v = Number(el.value);
-    if (isNaN(v) || el.value.trim() === '') { el.value = state2[key]; return; }
-    var clamped = clamp(v, min, max);
-    state2[key] = clamped;
-    el.value = clamped;
-    renderAll();
+    if (isNaN(v)||el.value.trim()===''){el.value=state2[key];return;}
+    var c=clamp(v,min,max); state2[key]=c; el.value=c; renderAll();
   });
-  el.addEventListener('keydown', function(e) { if (e.key === 'Enter') el.blur(); });
+  el.addEventListener('keydown', function(e){if(e.key==='Enter')el.blur();});
 }
-
-function setupBtnDistInput() {
-  var el = document.getElementById('inp_btnDist');
-  el.addEventListener('blur', function() {
-    var v = Number(el.value);
-    if (isNaN(v) || el.value.trim() === '') { el.value = state.btnDist; return; }
-    var clamped = clamp(v, 50, 1000);
-    state.btnDist = clamped;
-    el.value = clamped;
-    renderAll();
-  });
-  el.addEventListener('keydown', function(e) { if (e.key === 'Enter') el.blur(); });
-}
-
-function setupRadio(name, key) {
-  document.querySelectorAll('input[name="' + name + '"]').forEach(function(el) {
-    el.addEventListener('change', function() {
-      state[key] = getRadio(name);
-      renderAll();
-    });
-  });
-}
-
 function setupNumberInput3(id, key, min, maxFn) {
   var el = document.getElementById(id);
   el.addEventListener('blur', function() {
-    var max = typeof maxFn === 'function' ? maxFn() : maxFn;
+    var max = typeof maxFn==='function'?maxFn():maxFn;
     var v = Number(el.value);
-    if (isNaN(v) || el.value.trim() === '') { el.value = state3[key]; return; }
-    var clamped = clamp(v, min, max);
-    state3[key] = clamped;
-    el.value = clamped;
-    renderAll();
+    if (isNaN(v)||el.value.trim()===''){el.value=state3[key];return;}
+    var c=clamp(v,min,max); state3[key]=c; el.value=c; renderAll();
   });
-  el.addEventListener('keydown', function(e) { if (e.key === 'Enter') el.blur(); });
+  el.addEventListener('keydown', function(e){if(e.key==='Enter')el.blur();});
 }
-
 function setupNumberInput4(id, key, min, maxFn) {
   var el = document.getElementById(id);
   el.addEventListener('blur', function() {
-    var max = typeof maxFn === 'function' ? maxFn() : maxFn;
+    var max = typeof maxFn==='function'?maxFn():maxFn;
     var v = Number(el.value);
-    if (isNaN(v) || el.value.trim() === '') { el.value = state4[key]; return; }
-    var clamped = clamp(v, min, max);
-    state4[key] = clamped;
-    el.value = clamped;
-    renderAll();
+    if (isNaN(v)||el.value.trim()===''){el.value=state4[key];return;}
+    var c=clamp(v,min,max); state4[key]=c; el.value=c; renderAll();
   });
-  el.addEventListener('keydown', function(e) { if (e.key === 'Enter') el.blur(); });
+  el.addEventListener('keydown', function(e){if(e.key==='Enter')el.blur();});
+}
+function setupBtnDistInput() {
+  var el = document.getElementById('inp_btnDist');
+  el.addEventListener('blur', function() {
+    var v=Number(el.value);
+    if(isNaN(v)||el.value.trim()===''){el.value=state.btnDist;return;}
+    var c=clamp(v,50,1000); state.btnDist=c; el.value=c; renderAll();
+  });
+  el.addEventListener('keydown', function(e){if(e.key==='Enter')el.blur();});
+}
+function setupRadio(name, key) {
+  document.querySelectorAll('input[name="'+name+'"]').forEach(function(el) {
+    el.addEventListener('change', function(){state[key]=getRadio(name);renderAll();});
+  });
 }
 
-function renderAll() {
-  renderFloorplan();
-  renderElevation();
-  renderOpPanel();
-  renderAccPanel();
-}
+function renderAll() { renderFloorplan(); renderElevation(); renderOpPanel(); renderAccPanel(); }
 
 /* ===== 평면도 ===== */
 function renderFloorplan() {
-  var w = state.w, d = state.d, extWall = state.extWall, btnDist = state.btnDist;
-  var outerBtn = state.outerBtn, innerBtn = state.innerBtn;
-  var accessBtn = state.accessBtn, accessEnabled = state.accessEnabled;
-  var accessDist = state.accessDist;
-  var accessPanelW = (state4.accCols - 1) * state4.accBtnGapX + state4.accBtnDia * 2;
-  var doorW = Math.min(state.doorW, w - 100);
+  var w=state.w,d=state.d,extWall=state.extWall,btnDist=state.btnDist;
+  var outerBtn=state.outerBtn,innerBtn=state.innerBtn;
+  var accessBtn=state.accessBtn,accessEnabled=state.accessEnabled;
+  var accessDist=state4.accFromBack;
+  var accessPanelW=(state4.accCols-1)*state4.accBtnGapX+state4.accBtnDia*2;
+  var doorW=Math.min(state.doorW,w-100);
 
-  var eW = px(w), eD = px(d), extH = px(extWall);
-  var lobbyH = 50, doorPx = px(doorW);
-  var leftWallW = (eW - doorPx) / 2, rightWallW = (eW - doorPx) / 2;
-  var doorLeafW = doorPx * 0.35;
-  var opPanelW = 20, opPanelH = 4;
+  var eW=px(w),eD=px(d),extH=px(extWall);
+  var lobbyH=50,doorPx=px(doorW);
+  var leftWallW=(eW-doorPx)/2,rightWallW=(eW-doorPx)/2;
+  var doorLeafW=doorPx*0.35;
+  var opPanelW=20,opPanelH=4;
 
-  var eLeft = -eW/2, eTop = -eD/2, eRight = eW/2, eBottom = eD/2;
-  var doorX1 = -doorPx/2, doorX2 = doorPx/2, doorY = eBottom;
+  var eLeft=-eW/2,eTop=-eD/2,eRight=eW/2,eBottom=eD/2;
+  var doorX1=-doorPx/2,doorX2=doorPx/2,doorY=eBottom;
 
-  var padTop = 55, padBottom = extH + WALL_T + lobbyH + 55;
-  var padLeft = 55, padRight = Math.max(60, px(btnDist) + 50);
-  var vbX = eLeft - padLeft, vbY = eTop - padTop;
-  var vbW = eW + padLeft + padRight, vbH = eD + padTop + padBottom;
-  var lobbyY = doorY + extH + WALL_T / 2;
+  var padTop=55,padBottom=extH+WALL_T+lobbyH+55;
+  var padLeft=55,padRight=Math.max(60,px(btnDist)+50);
+  var vbX=eLeft-padLeft,vbY=eTop-padTop;
+  var vbW=eW+padLeft+padRight,vbH=eD+padTop+padBottom;
+  var lobbyY=doorY+extH+WALL_T/2;
 
-  var legendItems = [
+  var legendItems=[
     {c:'#78909c',b:'#78909c',w:14,h:5,l:'출입문'},
     {c:'#fff3e0',b:'#ef6c00',w:10,h:8,l:'호출 버튼'},
     {c:'#cfd8dc',b:'#455a64',w:14,h:4,l:'층 입력 패널'},
     {c:'#a5d6a7',b:'#2e7d32',w:4,h:10,l:'장애인용'}
   ];
-  var legendH = 26, legendY2 = vbY + vbH - legendH - 6;
+  var legendH=26,legendY2=vbY+vbH-legendH-6;
 
-  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
-  svg += '<defs><pattern id="floor" patternUnits="userSpaceOnUse" width="12" height="12"><rect width="12" height="12" fill="#eef1f5"/><path d="M0 12L12 0M-1 1L1 -1M11 13L13 11" stroke="#dce0e8" stroke-width="0.5"/></pattern>';
-  svg += '<pattern id="lobby" patternUnits="userSpaceOnUse" width="10" height="10"><rect width="10" height="10" fill="#f5f0e8"/><rect width="5" height="5" fill="#efe9df"/><rect x="5" y="5" width="5" height="5" fill="#efe9df"/></pattern></defs>';
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vbX+' '+vbY+' '+vbW+' '+vbH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
+  svg+='<defs><pattern id="floor" patternUnits="userSpaceOnUse" width="12" height="12"><rect width="12" height="12" fill="#eef1f5"/><path d="M0 12L12 0M-1 1L1 -1M11 13L13 11" stroke="#dce0e8" stroke-width="0.5"/></pattern>';
+  svg+='<pattern id="lobby" patternUnits="userSpaceOnUse" width="10" height="10"><rect width="10" height="10" fill="#f5f0e8"/><rect width="5" height="5" fill="#efe9df"/><rect x="5" y="5" width="5" height="5" fill="#efe9df"/></pattern></defs>';
 
-  svg += '<rect x="'+(eLeft-30)+'" y="'+lobbyY+'" width="'+(eW+60)+'" height="'+lobbyH+'" fill="url(#lobby)" rx="2"/>';
-  svg += '<rect x="'+eLeft+'" y="'+eTop+'" width="'+eW+'" height="'+eD+'" fill="url(#floor)"/>';
+  svg+='<rect x="'+(eLeft-30)+'" y="'+lobbyY+'" width="'+(eW+60)+'" height="'+lobbyH+'" fill="url(#lobby)" rx="2"/>';
+  svg+='<rect x="'+eLeft+'" y="'+eTop+'" width="'+eW+'" height="'+eD+'" fill="url(#floor)"/>';
 
-  svg += '<rect x="'+(eLeft-WALL_T/2)+'" y="'+(eTop-WALL_T/2)+'" width="'+(eW+WALL_T)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
-  svg += '<rect x="'+(eLeft-WALL_T/2)+'" y="'+(eTop-WALL_T/2)+'" width="'+WALL_T+'" height="'+(eD+WALL_T)+'" fill="#3a3a3a"/>';
-  svg += '<rect x="'+(eRight-WALL_T/2)+'" y="'+(eTop-WALL_T/2)+'" width="'+WALL_T+'" height="'+(eD+WALL_T)+'" fill="#3a3a3a"/>';
-  svg += '<rect x="'+(eLeft-WALL_T/2)+'" y="'+(doorY-WALL_T/2)+'" width="'+(leftWallW+WALL_T/2)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
-  svg += '<rect x="'+doorX2+'" y="'+(doorY-WALL_T/2)+'" width="'+(rightWallW+WALL_T/2)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
+  svg+='<rect x="'+(eLeft-WALL_T/2)+'" y="'+(eTop-WALL_T/2)+'" width="'+(eW+WALL_T)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
+  svg+='<rect x="'+(eLeft-WALL_T/2)+'" y="'+(eTop-WALL_T/2)+'" width="'+WALL_T+'" height="'+(eD+WALL_T)+'" fill="#3a3a3a"/>';
+  svg+='<rect x="'+(eRight-WALL_T/2)+'" y="'+(eTop-WALL_T/2)+'" width="'+WALL_T+'" height="'+(eD+WALL_T)+'" fill="#3a3a3a"/>';
+  svg+='<rect x="'+(eLeft-WALL_T/2)+'" y="'+(doorY-WALL_T/2)+'" width="'+(leftWallW+WALL_T/2)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
+  svg+='<rect x="'+doorX2+'" y="'+(doorY-WALL_T/2)+'" width="'+(rightWallW+WALL_T/2)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
 
-  if (extH > 0) {
-    svg += '<rect x="'+(doorX1-WALL_T/2-leftWallW)+'" y="'+(doorY+WALL_T/2)+'" width="'+leftWallW+'" height="'+extH+'" fill="#e8e8e8"/>';
-    svg += '<rect x="'+(doorX1-WALL_T/2-leftWallW)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
-    svg += '<rect x="'+(doorX1-WALL_T/2)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
-    svg += '<rect x="'+(doorX1-WALL_T/2-leftWallW)+'" y="'+(doorY+WALL_T/2+extH-WALL_T/2)+'" width="'+(leftWallW+WALL_T)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
-    svg += '<rect x="'+(doorX2+WALL_T/2)+'" y="'+(doorY+WALL_T/2)+'" width="'+rightWallW+'" height="'+extH+'" fill="#e8e8e8"/>';
-    svg += '<rect x="'+(doorX2-WALL_T/2)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
-    svg += '<rect x="'+(doorX2+rightWallW-WALL_T/2)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
-    svg += '<rect x="'+(doorX2-WALL_T/2)+'" y="'+(doorY+WALL_T/2+extH-WALL_T/2)+'" width="'+(rightWallW+WALL_T)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
-    var dy1=doorY, dy2=doorY+extH+WALL_T/2;
-    svg += '<line x1="'+(eRight+16)+'" y1="'+dy1+'" x2="'+(eRight+16)+'" y2="'+dy2+'" stroke="#607d8b" stroke-width="1"/>';
-    svg += '<line x1="'+(eRight+10)+'" y1="'+dy1+'" x2="'+(eRight+22)+'" y2="'+dy1+'" stroke="#607d8b" stroke-width="1"/>';
-    svg += '<line x1="'+(eRight+10)+'" y1="'+dy2+'" x2="'+(eRight+22)+'" y2="'+dy2+'" stroke="#607d8b" stroke-width="1"/>';
-    svg += '<text x="'+(eRight+20)+'" y="'+(doorY+extH/2+2)+'" text-anchor="start" font-size="9" fill="#607d8b" font-weight="600" transform="rotate(-90,'+(eRight+30)+','+(doorY+extH/2)+')">'+extWall+'mm</text>';
+  if(extH>0){
+    svg+='<rect x="'+(doorX1-WALL_T/2-leftWallW)+'" y="'+(doorY+WALL_T/2)+'" width="'+leftWallW+'" height="'+extH+'" fill="#e8e8e8"/>';
+    svg+='<rect x="'+(doorX1-WALL_T/2-leftWallW)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
+    svg+='<rect x="'+(doorX1-WALL_T/2)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
+    svg+='<rect x="'+(doorX1-WALL_T/2-leftWallW)+'" y="'+(doorY+WALL_T/2+extH-WALL_T/2)+'" width="'+(leftWallW+WALL_T)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
+    svg+='<rect x="'+(doorX2+WALL_T/2)+'" y="'+(doorY+WALL_T/2)+'" width="'+rightWallW+'" height="'+extH+'" fill="#e8e8e8"/>';
+    svg+='<rect x="'+(doorX2-WALL_T/2)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
+    svg+='<rect x="'+(doorX2+rightWallW-WALL_T/2)+'" y="'+(doorY+WALL_T/2-1)+'" width="'+WALL_T+'" height="'+(extH+1)+'" fill="#3a3a3a"/>';
+    svg+='<rect x="'+(doorX2-WALL_T/2)+'" y="'+(doorY+WALL_T/2+extH-WALL_T/2)+'" width="'+(rightWallW+WALL_T)+'" height="'+WALL_T+'" fill="#3a3a3a"/>';
+    var dy1=doorY,dy2=doorY+extH+WALL_T/2;
+    svg+=dimVText(eRight+16,dy1,dy2,extWall+'mm');
   }
 
-  svg += '<rect x="'+doorX1+'" y="'+(doorY-WALL_T/2)+'" width="'+doorPx+'" height="'+WALL_T+'" fill="#d0d0d0" opacity="0.3"/>';
-  svg += '<rect x="'+doorX1+'" y="'+(doorY-3)+'" width="'+doorLeafW+'" height="6" rx="1" fill="#78909c"/>';
-  svg += '<rect x="'+(doorX2-doorLeafW)+'" y="'+(doorY-3)+'" width="'+doorLeafW+'" height="6" rx="1" fill="#78909c"/>';
-  svg += '<line x1="'+(doorX1+doorLeafW+4)+'" y1="'+doorY+'" x2="'+(doorX2-doorLeafW-4)+'" y2="'+doorY+'" stroke="#78909c" stroke-width="1" stroke-dasharray="3,2"/>';
+  svg+='<rect x="'+doorX1+'" y="'+(doorY-WALL_T/2)+'" width="'+doorPx+'" height="'+WALL_T+'" fill="#d0d0d0" opacity="0.3"/>';
+  svg+='<rect x="'+doorX1+'" y="'+(doorY-3)+'" width="'+doorLeafW+'" height="6" rx="1" fill="#78909c"/>';
+  svg+='<rect x="'+(doorX2-doorLeafW)+'" y="'+(doorY-3)+'" width="'+doorLeafW+'" height="6" rx="1" fill="#78909c"/>';
+  svg+='<line x1="'+(doorX1+doorLeafW+4)+'" y1="'+doorY+'" x2="'+(doorX2-doorLeafW-4)+'" y2="'+doorY+'" stroke="#78909c" stroke-width="1" stroke-dasharray="3,2"/>';
 
-  var dimYd = doorY+extH+WALL_T+16;
-  svg += '<line x1="'+doorX1+'" y1="'+dimYd+'" x2="'+doorX2+'" y2="'+dimYd+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<line x1="'+doorX1+'" y1="'+(dimYd-6)+'" x2="'+doorX1+'" y2="'+(dimYd+6)+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<line x1="'+doorX2+'" y1="'+(dimYd-6)+'" x2="'+doorX2+'" y2="'+(dimYd+6)+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<text x="0" y="'+(dimYd+14)+'" text-anchor="middle" font-size="10" fill="#607d8b" font-weight="600">'+doorW+'mm</text>';
-
-  svg += '<line x1="'+eLeft+'" y1="'+(eTop-20)+'" x2="'+eRight+'" y2="'+(eTop-20)+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<line x1="'+eLeft+'" y1="'+(eTop-26)+'" x2="'+eLeft+'" y2="'+(eTop-14)+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<line x1="'+eRight+'" y1="'+(eTop-26)+'" x2="'+eRight+'" y2="'+(eTop-14)+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<text x="0" y="'+(eTop-26)+'" text-anchor="middle" font-size="10" fill="#607d8b" font-weight="600">'+w+'mm</text>';
-
-  svg += '<line x1="'+(eLeft-22)+'" y1="'+eTop+'" x2="'+(eLeft-22)+'" y2="'+eBottom+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<line x1="'+(eLeft-28)+'" y1="'+eTop+'" x2="'+(eLeft-16)+'" y2="'+eTop+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<line x1="'+(eLeft-28)+'" y1="'+eBottom+'" x2="'+(eLeft-16)+'" y2="'+eBottom+'" stroke="#607d8b" stroke-width="1"/>';
-  svg += '<text x="'+(eLeft-26)+'" y="0" text-anchor="middle" font-size="10" fill="#607d8b" font-weight="600" transform="rotate(-90,'+(eLeft-26)+',0)">'+d+'mm</text>';
+  var dimYd=doorY+extH+WALL_T+16;
+  svg+=dimHText(doorX1,doorX2,dimYd,doorW+'mm');
+  svg+=dimHText(eLeft,eRight,eTop-20,w+'mm');
+  svg+=dimVText(eLeft-22,eTop,eBottom,d+'mm');
 
   var wallEndY=doorY+extH;
-  var doorEdgeX = outerBtn==='right' ? doorX2 : doorX1;
-  var bx = outerBtn==='right' ? doorEdgeX+px(btnDist) : doorEdgeX-px(btnDist);
-  var by = wallEndY;
-  svg += '<rect x="'+(bx-9)+'" y="'+(by-10)+'" width="18" height="20" rx="4" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>';
-  svg += '<polygon points="'+bx+','+(by-6)+' '+(bx-4)+','+(by-1)+' '+(bx+4)+','+(by-1)+'" fill="#ef6c00"/>';
-  svg += '<polygon points="'+bx+','+(by+7)+' '+(bx-4)+','+(by+2)+' '+(bx+4)+','+(by+2)+'" fill="#ef6c00"/>';
-  svg += '<text x="'+bx+'" y="'+(by+22)+'" text-anchor="middle" font-size="8" fill="#bf360c" font-weight="600">호출</text>';
-  svg += '<line x1="'+doorEdgeX+'" y1="'+(by+28)+'" x2="'+bx+'" y2="'+(by+28)+'" stroke="#ef6c00" stroke-width="0.8" stroke-dasharray="3,2"/>';
-  svg += '<line x1="'+doorEdgeX+'" y1="'+(by+23)+'" x2="'+doorEdgeX+'" y2="'+(by+33)+'" stroke="#ef6c00" stroke-width="0.8"/>';
-  svg += '<line x1="'+bx+'" y1="'+(by+23)+'" x2="'+bx+'" y2="'+(by+33)+'" stroke="#ef6c00" stroke-width="0.8"/>';
-  svg += '<text x="'+((doorEdgeX+bx)/2)+'" y="'+(by+42)+'" text-anchor="middle" font-size="8" fill="#ef6c00" font-weight="600">'+btnDist+'mm</text>';
+  var doorEdgeX=outerBtn==='right'?doorX2:doorX1;
+  var bx=outerBtn==='right'?doorEdgeX+px(btnDist):doorEdgeX-px(btnDist);
+  var by=wallEndY;
+  svg+='<rect x="'+(bx-9)+'" y="'+(by-10)+'" width="18" height="20" rx="4" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>';
+  svg+='<polygon points="'+bx+','+(by-6)+' '+(bx-4)+','+(by-1)+' '+(bx+4)+','+(by-1)+'" fill="#ef6c00"/>';
+  svg+='<polygon points="'+bx+','+(by+7)+' '+(bx-4)+','+(by+2)+' '+(bx+4)+','+(by+2)+'" fill="#ef6c00"/>';
+  svg+='<text x="'+bx+'" y="'+(by+22)+'" text-anchor="middle" font-size="8" fill="#bf360c" font-weight="600">호출</text>';
+  var dimBtnY=by+30;
+  svg+=dimHRef(Math.min(doorEdgeX,bx),Math.max(doorEdgeX,bx),dimBtnY);
+  svg+='<text x="'+((doorEdgeX+bx)/2)+'" y="'+(dimBtnY+12)+'" text-anchor="middle" font-size="8" fill="'+DIM_REF_C+'" font-weight="600">'+btnDist+'mm</text>';
 
-  function drawOpPanel(side) {
-    var bx2 = side==='right' ? doorX2+6 : doorX1-6-opPanelW;
-    var by2 = doorY-WALL_T/2-opPanelH-1;
-    svg += '<rect x="'+bx2+'" y="'+by2+'" width="'+opPanelW+'" height="'+opPanelH+'" rx="1" fill="#cfd8dc" stroke="#455a64" stroke-width="1"/>';
-    svg += '<text x="'+(bx2+opPanelW/2)+'" y="'+(by2-4)+'" text-anchor="middle" font-size="7" fill="#455a64" font-weight="600">층 입력</text>';
+  function drawOpPanel(side){
+    var bx2=side==='right'?doorX2+6:doorX1-6-opPanelW;
+    var by2=doorY-WALL_T/2-opPanelH-1;
+    svg+='<rect x="'+bx2+'" y="'+by2+'" width="'+opPanelW+'" height="'+opPanelH+'" rx="1" fill="#cfd8dc" stroke="#455a64" stroke-width="1"/>';
+    svg+='<text x="'+(bx2+opPanelW/2)+'" y="'+(by2-4)+'" text-anchor="middle" font-size="7" fill="#455a64" font-weight="600">층 입력</text>';
   }
-  if (innerBtn==='right'||innerBtn==='both') drawOpPanel('right');
-  if (innerBtn==='left'||innerBtn==='both') drawOpPanel('left');
+  if(innerBtn==='right'||innerBtn==='both') drawOpPanel('right');
+  if(innerBtn==='left'||innerBtn==='both') drawOpPanel('left');
 
-  if (accessEnabled) {
-    var isR = accessBtn==='right';
-    var panelPxH = px(accessPanelW), panelThick = 4;
-    var cy = eTop + px(accessDist);
-    var abx = isR ? eRight-WALL_T/2-panelThick-1 : eLeft+WALL_T/2+1;
-    var aby = cy - panelPxH/2;
-    svg += '<rect x="'+abx+'" y="'+aby+'" width="'+panelThick+'" height="'+panelPxH+'" rx="1" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>';
-    svg += '<text x="'+(isR?abx-3:abx+panelThick+3)+'" y="'+(cy+3)+'" text-anchor="'+(isR?'end':'start')+'" font-size="7" fill="#1b5e20" font-weight="700">♿</text>';
-    var lx = isR ? abx+panelThick+8 : abx-8;
-    svg += '<line x1="'+lx+'" y1="'+eTop+'" x2="'+lx+'" y2="'+cy+'" stroke="#2e7d32" stroke-width="0.8" stroke-dasharray="3,2"/>';
-    svg += '<line x1="'+(lx-4)+'" y1="'+eTop+'" x2="'+(lx+4)+'" y2="'+eTop+'" stroke="#2e7d32" stroke-width="0.8"/>';
-    svg += '<line x1="'+(lx-4)+'" y1="'+cy+'" x2="'+(lx+4)+'" y2="'+cy+'" stroke="#2e7d32" stroke-width="0.8"/>';
-    var tx = isR ? abx+panelThick+18 : abx-18;
-    var tmid = eTop+(cy-eTop)/2;
-    svg += '<text x="'+tx+'" y="'+(tmid+3)+'" text-anchor="middle" font-size="8" fill="#2e7d32" font-weight="600" transform="rotate(-90,'+tx+','+tmid+')">'+accessDist+'mm</text>';
+  if(accessEnabled){
+    var isR=accessBtn==='right';
+    var panelPxH=px(accessPanelW),panelThick=4;
+    var cy=eTop+px(accessDist);
+    var abx=isR?eRight-WALL_T/2-panelThick-1:eLeft+WALL_T/2+1;
+    var aby=cy-panelPxH/2;
+    svg+='<rect x="'+abx+'" y="'+aby+'" width="'+panelThick+'" height="'+panelPxH+'" rx="1" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>';
+    svg+='<text x="'+(isR?abx-3:abx+panelThick+3)+'" y="'+(cy+3)+'" text-anchor="'+(isR?'end':'start')+'" font-size="7" fill="#1b5e20" font-weight="700">♿</text>';
+    var lx=isR?abx+panelThick+8:abx-8;
+    svg+=dimVRefText(lx,eTop,cy,accessDist+'mm');
   }
 
-  svg += '<g transform="translate(0,'+legendY2+')">';
-  svg += '<rect x="-155" y="0" width="310" height="'+legendH+'" rx="6" fill="#fafafa" stroke="#ddd" stroke-width="0.8"/>';
-  legendItems.forEach(function(it,i) {
-    var ox = -140+i*78;
-    svg += '<g transform="translate('+ox+','+legendH/2+')"><rect x="0" y="'+(-it.h/2)+'" width="'+it.w+'" height="'+it.h+'" rx="1.5" fill="'+it.c+'" stroke="'+it.b+'" stroke-width="0.8"/>';
-    svg += '<text x="'+(it.w+5)+'" y="3.5" font-size="8" fill="#555">'+it.l+'</text></g>';
+  svg+='<g transform="translate(0,'+legendY2+')">';
+  svg+='<rect x="-155" y="0" width="310" height="'+legendH+'" rx="6" fill="#fafafa" stroke="#ddd" stroke-width="0.8"/>';
+  legendItems.forEach(function(it,i){
+    var ox=-140+i*78;
+    svg+='<g transform="translate('+ox+','+legendH/2+')"><rect x="0" y="'+(-it.h/2)+'" width="'+it.w+'" height="'+it.h+'" rx="1.5" fill="'+it.c+'" stroke="'+it.b+'" stroke-width="0.8"/>';
+    svg+='<text x="'+(it.w+5)+'" y="3.5" font-size="8" fill="#555">'+it.l+'</text></g>';
   });
-  svg += '</g></svg>';
+  svg+='</g></svg>';
 
-  var box = document.getElementById('svgBox');
-  box.style.aspectRatio = vbW + ' / ' + vbH;
-  box.innerHTML = svg;
+  var box=document.getElementById('svgBox');
+  box.style.aspectRatio=vbW+' / '+vbH;
+  box.innerHTML=svg;
 }
 
-/* ===== 입면도 ===== */
-function renderElevation() {
-  var callFromFloor = state2.callFromFloor;
-  var callBtnGap = state2.callBtnGap;
-  var callBtnDia = state2.callBtnDia;
-  var callFromWall = state2.callFromWall;
-  var outerBtn = state.outerBtn;
-  var doorW = Math.min(state.doorW, state.w - 100);
-  var btnDist = state.btnDist;
-
-  var S = 0.18;
-  function p(mm) { return mm * S; }
-
-  var btnR = p(callBtnDia) / 2;
-  var gap = p(callBtnGap);
-  var fromFloor = p(callFromFloor);
-  var wallSideDist = p(callFromWall);
-  var doorSideDist = p(btnDist);
-  var doorShowW = Math.min(p(doorW), doorSideDist + 80);
-
-  // Y좌표: 바닥=0, 위=음수
-  var dbY = -fromFloor;
-  var ubY = dbY - gap;
-  var dimLine1Y = ubY - btnR - 14;
-  var dimLine2Y = dimLine1Y - 20;
-
-  var breakH = 14, aboveBreak = 25;
-  var wallBotTopY = dimLine2Y - 14;
-  var breakBotY = wallBotTopY;
-  var breakTopY = breakBotY - breakH;
-  var wallVeryTopY = breakTopY - aboveBreak;
-
-  var topY = wallVeryTopY - 10;
-  var botY = 16;
-  var viewH = botY - topY;
-
-  var totalLeft, totalRight;
-  if (outerBtn === 'right') {
-    totalLeft = doorSideDist + doorShowW + 10;
-    totalRight = wallSideDist + 30;
-  } else {
-    totalRight = doorSideDist + doorShowW + 10;
-    totalLeft = wallSideDist + 30;
-  }
-  var padL = 20, padR = 20;
-  var viewW = totalLeft + totalRight + padL + padR;
-  var btnCx = padL + totalLeft;
-
-  var wallLeftX, wallRightX, doorStartX;
-  if (outerBtn === 'right') {
-    wallRightX = btnCx + wallSideDist;
-    wallLeftX = btnCx - doorSideDist;
-    doorStartX = wallLeftX - doorShowW;
-  } else {
-    wallLeftX = btnCx - wallSideDist;
-    wallRightX = btnCx + doorSideDist;
-    doorStartX = wallRightX;
-  }
-
-  var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 '+topY+' '+viewW+' '+viewH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
-
+/* ===== 입면도 공통: 벽+생략+바닥 ===== */
+function drawWallBase(wallLeftX,wallRightX,wallVisTop,breakTopY,wallVeryTopY,aboveBreak,breakH,floorLeft,floorRight) {
+  var s='';
   // 바닥
-  s += '<line x1="'+padL+'" y1="0" x2="'+(padL+totalLeft+totalRight)+'" y2="0" stroke="#3a3a3a" stroke-width="3"/>';
-  for (var hx=padL; hx<padL+totalLeft+totalRight; hx+=8) {
-    s += '<line x1="'+hx+'" y1="0" x2="'+(hx-5)+'" y2="7" stroke="#999" stroke-width="0.5"/>';
-  }
+  s+='<line x1="'+floorLeft+'" y1="0" x2="'+floorRight+'" y2="0" stroke="#3a3a3a" stroke-width="3"/>';
+  for(var hx=floorLeft;hx<floorRight;hx+=8) s+='<line x1="'+hx+'" y1="0" x2="'+(hx-5)+'" y2="7" stroke="#999" stroke-width="0.5"/>';
+  // 벽 아래
+  s+='<rect x="'+wallLeftX+'" y="'+wallVisTop+'" width="'+(wallRightX-wallLeftX)+'" height="'+(-wallVisTop)+'" fill="#e8e8e8"/>';
+  s+='<line x1="'+wallLeftX+'" y1="'+wallVisTop+'" x2="'+wallLeftX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
+  s+='<line x1="'+wallRightX+'" y1="'+wallVisTop+'" x2="'+wallRightX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
+  // 벽 위
+  s+='<rect x="'+wallLeftX+'" y="'+wallVeryTopY+'" width="'+(wallRightX-wallLeftX)+'" height="'+aboveBreak+'" fill="#e8e8e8"/>';
+  s+='<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+wallVeryTopY+'" stroke="#3a3a3a" stroke-width="2"/>';
+  s+='<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallLeftX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
+  s+='<line x1="'+wallRightX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
+  // 생략
+  s+='<rect x="'+(wallLeftX-1)+'" y="'+breakTopY+'" width="'+(wallRightX-wallLeftX+2)+'" height="'+breakH+'" fill="#fff"/>';
+  var zigL='M '+wallLeftX+' '+breakTopY,zigR='M '+wallRightX+' '+breakTopY;
+  for(var yy=breakTopY;yy<wallVisTop;yy+=8){var ny=Math.min(yy+8,wallVisTop),my=(yy+ny)/2;zigL+=' L '+(wallLeftX+4)+' '+my+' L '+wallLeftX+' '+ny;zigR+=' L '+(wallRightX-4)+' '+my+' L '+wallRightX+' '+ny;}
+  s+='<path d="'+zigL+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
+  s+='<path d="'+zigR+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
+  s+='<text x="'+((wallLeftX+wallRightX)/2)+'" y="'+((breakTopY+wallVisTop)/2+3)+'" text-anchor="middle" font-size="10" fill="#999">⋮</text>';
+  return s;
+}
 
-  // 벽 아래부분
-  s += '<rect x="'+wallLeftX+'" y="'+wallBotTopY+'" width="'+(wallRightX-wallLeftX)+'" height="'+(-wallBotTopY)+'" fill="#e8e8e8"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallBotTopY+'" x2="'+wallLeftX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+wallBotTopY+'" x2="'+wallRightX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-
-  // 벽 위부분
-  s += '<rect x="'+wallLeftX+'" y="'+wallVeryTopY+'" width="'+(wallRightX-wallLeftX)+'" height="'+aboveBreak+'" fill="#e8e8e8"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallLeftX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+wallVeryTopY+'" stroke="#3a3a3a" stroke-width="2"/>';
-
-  // 생략기호
-  s += '<rect x="'+(wallLeftX-1)+'" y="'+breakTopY+'" width="'+(wallRightX-wallLeftX+2)+'" height="'+breakH+'" fill="#fff"/>';
-  var zigL = 'M '+wallLeftX+' '+breakTopY, zigR = 'M '+wallRightX+' '+breakTopY;
-  for (var yy=breakTopY; yy<breakBotY; yy+=8) {
-    var ny=Math.min(yy+8,breakBotY), my=(yy+ny)/2;
-    zigL += ' L '+(wallLeftX+4)+' '+my+' L '+wallLeftX+' '+ny;
-    zigR += ' L '+(wallRightX-4)+' '+my+' L '+wallRightX+' '+ny;
-  }
-  s += '<path d="'+zigL+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
-  s += '<path d="'+zigR+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
-  s += '<text x="'+((wallLeftX+wallRightX)/2)+'" y="'+((breakTopY+breakBotY)/2+3)+'" text-anchor="middle" font-size="10" fill="#999" font-weight="600">⋮</text>';
-
-  // 입구
-  if (outerBtn === 'right') {
-    s += '<rect x="'+doorStartX+'" y="'+wallBotTopY+'" width="'+(wallLeftX-doorStartX)+'" height="'+(-wallBotTopY)+'" fill="#f5f0e8"/>';
-    s += '<line x1="'+doorStartX+'" y1="'+wallBotTopY+'" x2="'+doorStartX+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
-    s += '<line x1="'+wallLeftX+'" y1="'+wallBotTopY+'" x2="'+wallLeftX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-    s += '<text x="'+((doorStartX+wallLeftX)/2)+'" y="'+dbY+'" text-anchor="middle" font-size="9" fill="#998a6d" font-weight="500">출입문</text>';
+function drawDoorArea(side,wallLeftX,wallRightX,wallVisTop,doorShowW,padL,labelY) {
+  var s='';
+  if(side==='left'){
+    var dl=wallLeftX-doorShowW,dr=wallLeftX;
+    s+='<rect x="'+dl+'" y="'+wallVisTop+'" width="'+(dr-dl)+'" height="'+(-wallVisTop)+'" fill="#f5f0e8"/>';
+    s+='<line x1="'+dl+'" y1="'+wallVisTop+'" x2="'+dl+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
+    s+='<line x1="'+dr+'" y1="'+wallVisTop+'" x2="'+dr+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
+    s+='<text x="'+((dl+dr)/2)+'" y="'+labelY+'" text-anchor="middle" font-size="9" fill="#998a6d">출입문</text>';
+  } else if(side==='right'){
+    var dl2=wallRightX,dr2=dl2+doorShowW;
+    s+='<rect x="'+dl2+'" y="'+wallVisTop+'" width="'+doorShowW+'" height="'+(-wallVisTop)+'" fill="#f5f0e8"/>';
+    s+='<line x1="'+dr2+'" y1="'+wallVisTop+'" x2="'+dr2+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
+    s+='<line x1="'+dl2+'" y1="'+wallVisTop+'" x2="'+dl2+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
+    s+='<text x="'+((dl2+dr2)/2)+'" y="'+labelY+'" text-anchor="middle" font-size="9" fill="#998a6d">출입문</text>';
   } else {
-    s += '<rect x="'+wallRightX+'" y="'+wallBotTopY+'" width="'+doorShowW+'" height="'+(-wallBotTopY)+'" fill="#f5f0e8"/>';
-    s += '<line x1="'+(wallRightX+doorShowW)+'" y1="'+wallBotTopY+'" x2="'+(wallRightX+doorShowW)+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
-    s += '<line x1="'+wallRightX+'" y1="'+wallBotTopY+'" x2="'+wallRightX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-    s += '<text x="'+(wallRightX+doorShowW/2)+'" y="'+dbY+'" text-anchor="middle" font-size="9" fill="#998a6d" font-weight="500">출입문</text>';
+    // 'front' for acc panel
+    var dl3=wallRightX,dr3=dl3+doorShowW;
+    s+='<rect x="'+dl3+'" y="'+wallVisTop+'" width="'+doorShowW+'" height="'+(-wallVisTop)+'" fill="#f5f0e8"/>';
+    s+='<line x1="'+dr3+'" y1="'+wallVisTop+'" x2="'+dr3+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
+    s+='<line x1="'+dl3+'" y1="'+wallVisTop+'" x2="'+dl3+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
+    s+='<text x="'+((dl3+dr3)/2)+'" y="'+labelY+'" text-anchor="middle" font-size="9" fill="#998a6d">입구쪽</text>';
   }
+  return s;
+}
 
-  // ▲ 버튼
-  var triSize = btnR * 0.5;
-  s += '<circle cx="'+btnCx+'" cy="'+ubY+'" r="'+btnR+'" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>';
-  s += '<polygon points="'+btnCx+','+(ubY-triSize)+' '+(btnCx-triSize)+','+(ubY+triSize*0.6)+' '+(btnCx+triSize)+','+(ubY+triSize*0.6)+'" fill="#ef6c00"/>';
+/* ===== 바깥쪽 호출 버튼 입면도 ===== */
+function renderElevation() {
+  var S=0.18; function p(mm){return mm*S;}
+  var fromFloor=p(state2.callFromFloor),gap=p(state2.callBtnGap);
+  var btnR=p(state2.callBtnDia)/2;
+  var wallSideDist=p(state2.callFromWall),doorSideDist=p(state.btnDist);
+  var doorShowW=Math.min(p(Math.min(state.doorW,state.w-100)),doorSideDist+80);
+  var outerBtn=state.outerBtn;
 
-  // ▼ 버튼
-  s += '<circle cx="'+btnCx+'" cy="'+dbY+'" r="'+btnR+'" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>';
-  s += '<polygon points="'+btnCx+','+(dbY+triSize)+' '+(btnCx-triSize)+','+(dbY-triSize*0.6)+' '+(btnCx+triSize)+','+(dbY-triSize*0.6)+'" fill="#ef6c00"/>';
+  var dbY=-fromFloor,ubY=dbY-gap;
+  var dimLine1Y=ubY-btnR-14,dimLine2Y=dimLine1Y-20;
 
-  // 치수: 바닥에서 ▼ 중앙
-  var dimX1 = btnCx + btnR + 10;
-  s += '<line x1="'+dimX1+'" y1="0" x2="'+dimX1+'" y2="'+dbY+'" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+(dimX1-5)+'" y1="0" x2="'+(dimX1+5)+'" y2="0" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+(dimX1-5)+'" y1="'+dbY+'" x2="'+(dimX1+5)+'" y2="'+dbY+'" stroke="#607d8b" stroke-width="1.2"/>';
-  var dm1 = dbY/2;
-  s += '<text x="'+(dimX1+12)+'" y="'+(dm1+3)+'" text-anchor="middle" font-size="9" fill="#607d8b" font-weight="700" transform="rotate(-90,'+(dimX1+12)+','+dm1+')">'+callFromFloor+'mm</text>';
+  var breakH=14,aboveBreak=20;
+  var wallBotTopY=dimLine2Y-14;
+  var breakTopY=wallBotTopY-breakH;
+  var wallVeryTopY=breakTopY-aboveBreak;
 
-  // 치수: 벽 끝 거리 (▲ 위)
-  if (outerBtn === 'right') {
-    s += '<line x1="'+btnCx+'" y1="'+dimLine1Y+'" x2="'+wallRightX+'" y2="'+dimLine1Y+'" stroke="#607d8b" stroke-width="1.5"/>';
-    s += '<line x1="'+btnCx+'" y1="'+(dimLine1Y-5)+'" x2="'+btnCx+'" y2="'+(dimLine1Y+5)+'" stroke="#607d8b" stroke-width="1.5"/>';
-    s += '<line x1="'+wallRightX+'" y1="'+(dimLine1Y-5)+'" x2="'+wallRightX+'" y2="'+(dimLine1Y+5)+'" stroke="#607d8b" stroke-width="1.5"/>';
-    s += '<text x="'+((btnCx+wallRightX)/2)+'" y="'+(dimLine1Y-5)+'" text-anchor="middle" font-size="9" fill="#607d8b" font-weight="700">'+callFromWall+'mm</text>';
+  var topY=wallVeryTopY-10,botY=16,viewH=botY-topY;
+  var totalLeft,totalRight;
+  if(outerBtn==='right'){totalLeft=doorSideDist+doorShowW+10;totalRight=wallSideDist+30;}
+  else{totalRight=doorSideDist+doorShowW+10;totalLeft=wallSideDist+30;}
+  var padL=20,padR=20,viewW=totalLeft+totalRight+padL+padR;
+  var btnCx=padL+totalLeft;
+
+  var wallLeftX,wallRightX;
+  if(outerBtn==='right'){wallRightX=btnCx+wallSideDist;wallLeftX=btnCx-doorSideDist;}
+  else{wallLeftX=btnCx-wallSideDist;wallRightX=btnCx+doorSideDist;}
+
+  var s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 '+topY+' '+viewW+' '+viewH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
+  var floorLeft,floorRight;
+  if(outerBtn==='right'){floorLeft=wallLeftX-doorShowW;floorRight=wallRightX;}
+  else{floorLeft=wallLeftX;floorRight=wallRightX+doorShowW;}
+  s+=drawWallBase(wallLeftX,wallRightX,wallBotTopY,breakTopY,wallVeryTopY,aboveBreak,breakH,floorLeft,floorRight);
+  s+=drawDoorArea(outerBtn==='right'?'left':'right',wallLeftX,wallRightX,wallBotTopY,doorShowW,padL,dbY);
+
+  // 버튼
+  var triSize=btnR*0.5;
+  s+='<circle cx="'+btnCx+'" cy="'+ubY+'" r="'+btnR+'" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>';
+  s+='<polygon points="'+btnCx+','+(ubY-triSize)+' '+(btnCx-triSize)+','+(ubY+triSize*0.6)+' '+(btnCx+triSize)+','+(ubY+triSize*0.6)+'" fill="#ef6c00"/>';
+  s+='<circle cx="'+btnCx+'" cy="'+dbY+'" r="'+btnR+'" fill="#fff3e0" stroke="#ef6c00" stroke-width="1.5"/>';
+  s+='<polygon points="'+btnCx+','+(dbY+triSize)+' '+(btnCx-triSize)+','+(dbY-triSize*0.6)+' '+(btnCx+triSize)+','+(dbY-triSize*0.6)+'" fill="#ef6c00"/>';
+
+  // 치수
+  s+=dimVText(btnCx+btnR+10,0,dbY,state2.callFromFloor+'mm');
+  if(outerBtn==='right'){
+    s+=dimHText(btnCx,wallRightX,dimLine1Y,state2.callFromWall+'mm');
+    s+=dimHText(wallLeftX,btnCx,dimLine2Y,state.btnDist+'mm');
   } else {
-    s += '<line x1="'+wallLeftX+'" y1="'+dimLine1Y+'" x2="'+btnCx+'" y2="'+dimLine1Y+'" stroke="#607d8b" stroke-width="1.5"/>';
-    s += '<line x1="'+wallLeftX+'" y1="'+(dimLine1Y-5)+'" x2="'+wallLeftX+'" y2="'+(dimLine1Y+5)+'" stroke="#607d8b" stroke-width="1.5"/>';
-    s += '<line x1="'+btnCx+'" y1="'+(dimLine1Y-5)+'" x2="'+btnCx+'" y2="'+(dimLine1Y+5)+'" stroke="#607d8b" stroke-width="1.5"/>';
-    s += '<text x="'+((wallLeftX+btnCx)/2)+'" y="'+(dimLine1Y-5)+'" text-anchor="middle" font-size="9" fill="#607d8b" font-weight="700">'+callFromWall+'mm</text>';
+    s+=dimHText(wallLeftX,btnCx,dimLine1Y,state2.callFromWall+'mm');
+    s+=dimHText(btnCx,wallRightX,dimLine2Y,state.btnDist+'mm');
   }
 
-  // 치수: 문 끝 거리 (그 위)
-  if (outerBtn === 'right') {
-    s += '<line x1="'+wallLeftX+'" y1="'+dimLine2Y+'" x2="'+btnCx+'" y2="'+dimLine2Y+'" stroke="#ef6c00" stroke-width="1.5" stroke-dasharray="4,3"/>';
-    s += '<line x1="'+wallLeftX+'" y1="'+(dimLine2Y-5)+'" x2="'+wallLeftX+'" y2="'+(dimLine2Y+5)+'" stroke="#ef6c00" stroke-width="1.5"/>';
-    s += '<line x1="'+btnCx+'" y1="'+(dimLine2Y-5)+'" x2="'+btnCx+'" y2="'+(dimLine2Y+5)+'" stroke="#ef6c00" stroke-width="1.5"/>';
-    s += '<text x="'+((wallLeftX+btnCx)/2)+'" y="'+(dimLine2Y-5)+'" text-anchor="middle" font-size="9" fill="#ef6c00" font-weight="700">'+state.btnDist+'mm (문 끝 거리)</text>';
-  } else {
-    s += '<line x1="'+btnCx+'" y1="'+dimLine2Y+'" x2="'+wallRightX+'" y2="'+dimLine2Y+'" stroke="#ef6c00" stroke-width="1.5" stroke-dasharray="4,3"/>';
-    s += '<line x1="'+btnCx+'" y1="'+(dimLine2Y-5)+'" x2="'+btnCx+'" y2="'+(dimLine2Y+5)+'" stroke="#ef6c00" stroke-width="1.5"/>';
-    s += '<line x1="'+wallRightX+'" y1="'+(dimLine2Y-5)+'" x2="'+wallRightX+'" y2="'+(dimLine2Y+5)+'" stroke="#ef6c00" stroke-width="1.5"/>';
-    s += '<text x="'+((btnCx+wallRightX)/2)+'" y="'+(dimLine2Y-5)+'" text-anchor="middle" font-size="9" fill="#ef6c00" font-weight="700">'+state.btnDist+'mm (문 끝 거리)</text>';
-  }
-
-  s += '</svg>';
-
-  document.getElementById('svgBox2').style.aspectRatio = viewW + ' / ' + viewH;
-  document.getElementById('svgBox2').innerHTML = s;
-}
-
-/* ===== 복사/저장 ===== */
-function svgToCanvas() {
-  return new Promise(function(resolve, reject) {
-    var svgEl = document.querySelector('#svgBox svg');
-    if (!svgEl) return reject('no svg');
-    var clone = svgEl.cloneNode(true);
-    var rect = svgEl.getBoundingClientRect();
-    var cw = rect.width||600, ch = rect.height||400;
-    clone.setAttribute('width', String(cw));
-    clone.setAttribute('height', String(ch));
-    var str = new XMLSerializer().serializeToString(clone);
-    var dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(str);
-    var img = new Image();
-    img.onload = function() {
-      var scale = 3;
-      var canvas = document.createElement('canvas');
-      canvas.width = cw*scale; canvas.height = ch*scale;
-      var ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-      ctx.drawImage(img,0,0,canvas.width,canvas.height);
-      resolve(canvas);
-    };
-    img.onerror = reject;
-    img.src = dataUrl;
-  });
-}
-
-function showMsg(txt, dur) {
-  var el = document.getElementById('copyMsg');
-  el.textContent = txt;
-  setTimeout(function(){el.textContent='';}, dur||2500);
-}
-
-function handleCopy() {
-  svgToCanvas().then(function(canvas) {
-    if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
-      canvas.toBlob(function(blob) {
-        if (blob) {
-          navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(function(){
-            showMsg('복사 완료!');
-          }).catch(function(){ doFallbackDownload(canvas); });
-        } else { doFallbackDownload(canvas); }
-      }, 'image/png');
-    } else { doFallbackDownload(canvas); }
-  }).catch(function(){ showMsg('복사 실패'); });
-}
-
-function doFallbackDownload(canvas) {
-  var url = canvas.toDataURL('image/png');
-  var a = document.createElement('a');
-  a.href = url; a.download = 'elevator_floorplan_'+state.w+'x'+state.d+'.png';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  showMsg('클립보드 미지원 - 파일로 저장됨');
-}
-
-function handleSave() {
-  svgToCanvas().then(function(canvas) {
-    canvas.toBlob(function(blob) {
-      if (!blob) return;
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url; a.download = 'elevator_floorplan_'+state.w+'x'+state.d+'.png';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(function(){URL.revokeObjectURL(url);},100);
-    }, 'image/png');
-  }).catch(function(){ showMsg('저장 실패'); });
-}
-
-/* 입면도용 복사/저장 */
-function elevToCanvas(boxId) {
-  return new Promise(function(resolve, reject) {
-    var svgEl = document.querySelector('#'+boxId+' svg');
-    if (!svgEl) return reject('no svg');
-    var clone = svgEl.cloneNode(true);
-    var rect = svgEl.getBoundingClientRect();
-    var cw = rect.width||600, ch = rect.height||400;
-    clone.setAttribute('width', String(cw));
-    clone.setAttribute('height', String(ch));
-    var str = new XMLSerializer().serializeToString(clone);
-    var dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(str);
-    var img = new Image();
-    img.onload = function() {
-      var scale = 3;
-      var canvas = document.createElement('canvas');
-      canvas.width = cw*scale; canvas.height = ch*scale;
-      var ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-      ctx.drawImage(img,0,0,canvas.width,canvas.height);
-      resolve(canvas);
-    };
-    img.onerror = reject;
-    img.src = dataUrl;
-  });
-}
-
-function getMsgEl(boxId) {
-  var map = {svgBox2:'copyMsg2',svgBox3:'copyMsg3',svgBox4:'copyMsg4'};
-  return document.getElementById(map[boxId]||'copyMsg2');
-}
-
-function handleCopyElev(boxId) {
-  var msgEl = getMsgEl(boxId);
-  elevToCanvas(boxId).then(function(canvas) {
-    if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
-      canvas.toBlob(function(blob) {
-        if (blob) {
-          navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(function(){
-            msgEl.textContent='복사 완료!'; setTimeout(function(){msgEl.textContent='';},2500);
-          }).catch(function(){ doElevFallback(canvas,boxId,msgEl); });
-        } else { doElevFallback(canvas,boxId,msgEl); }
-      }, 'image/png');
-    } else { doElevFallback(canvas,boxId,msgEl); }
-  }).catch(function(){ msgEl.textContent='복사 실패'; setTimeout(function(){msgEl.textContent='';},2500); });
-}
-
-function handleSaveElev(boxId, name) {
-  elevToCanvas(boxId).then(function(canvas) {
-    canvas.toBlob(function(blob) {
-      if (!blob) return;
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url; a.download = name+'_'+state.w+'x'+state.d+'.png';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(function(){URL.revokeObjectURL(url);},100);
-    }, 'image/png');
-  }).catch(function(){});
-}
-
-function doElevFallback(canvas,boxId,msgEl) {
-  var url = canvas.toDataURL('image/png');
-  var a = document.createElement('a');
-  a.href = url; a.download = boxId+'.png';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  msgEl.textContent='클립보드 미지원 - 파일로 저장됨';
-  setTimeout(function(){msgEl.textContent='';},2500);
+  s+='</svg>';
+  document.getElementById('svgBox2').style.aspectRatio=viewW+' / '+viewH;
+  document.getElementById('svgBox2').innerHTML=s;
 }
 
 /* ===== 안쪽 층 입력 패널 입면도 ===== */
 function renderOpPanel() {
-  var S = 0.18;
-  function p(mm) { return mm * S; }
-  var fromFloor = p(state3.opFromFloor);
-  var fromWall = p(state3.opFromWall);
-  var fromWall2 = p(state3.opFromWall2);
-  var cols = state3.opCols, rows = state3.opRows;
-  var gx = p(state3.opBtnGapX), gy = p(state3.opBtnGapY);
-  var btnR = p(state3.opBtnDia) / 2;
-  var innerBtn = state.innerBtn;
+  var S=0.18; function p(mm){return mm*S;}
+  var fromFloor=p(state3.opFromFloor),fromWall=p(state3.opFromWall),fromWall2=p(state3.opFromWall2);
+  var cols=state3.opCols,rows=state3.opRows;
+  var gx=p(state3.opBtnGapX),gy=p(state3.opBtnGapY);
+  var btnR=p(state3.opBtnDia)/2;
+  var padAround=Math.max(gx,gy)*0.8;
+  var innerBtn=state.innerBtn;
 
-  var gridW = (cols - 1) * gx;
-  var gridH = (rows - 1) * gy;
-  var padAround = Math.max(gx, gy) * 0.8;
+  var gridW=(cols-1)*gx,gridH=(rows-1)*gy;
+  var pw=gridW+padAround*2,ph=gridH+padAround*2;
 
-  var pw = gridW + padAround * 2;
-  var ph = gridH + padAround * 2;
+  var row1CenterY=-fromFloor;
+  var gridTop=row1CenterY-gridH;
+  var panelBot=row1CenterY+padAround,panelTop=gridTop-padAround;
 
-  // Y: 바닥=0, 위=음수
-  var row1CenterY = -fromFloor;
-  var gridBot = row1CenterY;
-  var gridTop = gridBot - gridH;
-  var panelBot = gridBot + padAround;
-  var panelTop = gridTop - padAround;
+  var isRight=(innerBtn==='right'||innerBtn==='both');
+  var doorShowW=80;
+  var wallTotalW=fromWall+gridW+fromWall2;
 
-  var isRight = (innerBtn === 'right' || innerBtn === 'both');
-  var doorShowW = 80;
+  var padL=40,padR=40;
+  var wallLeftX,wallRightX,col1Cx,colLastCx;
+  if(isRight){wallRightX=padL+doorShowW+wallTotalW;wallLeftX=wallRightX-wallTotalW;col1Cx=wallRightX-fromWall;colLastCx=col1Cx-gridW;}
+  else{wallLeftX=padL+doorShowW;wallRightX=wallLeftX+wallTotalW;col1Cx=wallLeftX+fromWall;colLastCx=col1Cx+gridW;}
 
-  // 벽 범위: 1열쪽 벽(입구끝) + 그리드 + 끝열쪽 벽
-  // isRight: 입구=왼쪽, 1열=왼쪽, 끝열=오른쪽
-  var wallTotalW = fromWall + gridW + fromWall2;
+  var panelCx=(col1Cx+colLastCx)/2;
+  var panelLeft=panelCx-pw/2,panelRight=panelCx+pw/2;
 
-  var padL = 40, padR = 40;
-  var wallLeftX, wallRightX, col1Cx, colLastCx;
+  var breakH=14,aboveBreak=20,dimAbove=40;
+  var wallVisTop=panelTop-dimAbove;
+  var breakTopY2=wallVisTop-breakH;
+  var wallVeryTopY=breakTopY2-aboveBreak;
+  var topY=wallVeryTopY-10,botY=16,viewH=botY-topY;
 
-  if (isRight) {
-    wallLeftX = padL + doorShowW;
-    wallRightX = wallLeftX + wallTotalW;
-    col1Cx = wallLeftX + fromWall;
-    colLastCx = col1Cx + gridW;
-  } else {
-    wallRightX = padL + doorShowW + wallTotalW;
-    wallLeftX = wallRightX - wallTotalW;
-    colLastCx = wallLeftX + fromWall2;
-    col1Cx = colLastCx + gridW;
+  // viewBox: 패널 중심이 가로 중앙에 오도록
+  var allLeft=isRight?wallLeftX:wallLeftX-doorShowW;
+  var allRight=isRight?wallRightX+doorShowW:wallRightX;
+  var marginL=panelCx-allLeft;
+  var marginR=allRight-panelCx;
+  var maxMargin=Math.max(marginL,marginR);
+  var vbXstart=panelCx-maxMargin-20;
+  var vbXend=panelCx+maxMargin+20;
+  var viewW=vbXend-vbXstart;
+
+  var s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vbXstart+' '+topY+' '+viewW+' '+viewH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
+  var floorLeft3=isRight?wallLeftX:wallLeftX-doorShowW;
+  var floorRight3=isRight?wallRightX+doorShowW:wallRightX;
+  s+=drawWallBase(wallLeftX,wallRightX,wallVisTop,breakTopY2,wallVeryTopY,aboveBreak,breakH,floorLeft3,floorRight3);
+  s+=drawDoorArea(isRight?'right':'left',wallLeftX,wallRightX,wallVisTop,doorShowW,padL,row1CenterY);
+
+  // 패널
+  s+='<rect x="'+panelLeft+'" y="'+panelTop+'" width="'+pw+'" height="'+ph+'" rx="3" fill="#cfd8dc" stroke="#455a64" stroke-width="1.5"/>';
+  for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
+    var cx=isRight?col1Cx-c*gx:col1Cx+c*gx;
+    var cy=row1CenterY-r*gy;
+    s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+btnR+'" fill="#fff" stroke="#37474f" stroke-width="0.8"/>';
   }
 
-  var panelCx = (col1Cx + colLastCx) / 2;
-  var panelLeft = panelCx - pw / 2;
-  var panelRight = panelCx + pw / 2;
+  // 치수
+  s+=dimVText(panelRight+12,0,row1CenterY,state3.opFromFloor+'mm');
+  var wallEdge1=isRight?wallRightX:wallLeftX;
+  s+=dimHText(Math.min(wallEdge1,col1Cx),Math.max(wallEdge1,col1Cx),panelTop-10,state3.opFromWall+'mm');
+  var wallEdge2=isRight?wallLeftX:wallRightX;
+  s+=dimHText(Math.min(wallEdge2,colLastCx),Math.max(wallEdge2,colLastCx),panelTop-28,state3.opFromWall2+'mm');
 
-  var breakH = 14, aboveBreak = 20, dimAbove = 40;
-  var wallVisTop = panelTop - dimAbove;
-  var breakTopY = wallVisTop - breakH;
-  var wallVeryTopY = breakTopY - aboveBreak;
-
-  var topY = wallVeryTopY - 10;
-  var botY = 16;
-  var viewH = botY - topY;
-  var viewW = wallTotalW + doorShowW + padL + padR;
-
-  var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 '+topY+' '+viewW+' '+viewH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
-
-  // 바닥
-  s += '<line x1="'+(padL)+'" y1="0" x2="'+(viewW-padR)+'" y2="0" stroke="#3a3a3a" stroke-width="3"/>';
-  for (var hx=padL; hx<viewW-padR; hx+=8) s += '<line x1="'+hx+'" y1="0" x2="'+(hx-5)+'" y2="7" stroke="#999" stroke-width="0.5"/>';
-
-  // 벽 아래
-  s += '<rect x="'+wallLeftX+'" y="'+wallVisTop+'" width="'+(wallRightX-wallLeftX)+'" height="'+(-wallVisTop)+'" fill="#e8e8e8"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVisTop+'" x2="'+wallLeftX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+wallVisTop+'" x2="'+wallRightX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-
-  // 벽 위
-  s += '<rect x="'+wallLeftX+'" y="'+wallVeryTopY+'" width="'+(wallRightX-wallLeftX)+'" height="'+aboveBreak+'" fill="#e8e8e8"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+wallVeryTopY+'" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallLeftX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
-
-  // 생략
-  s += '<rect x="'+(wallLeftX-1)+'" y="'+breakTopY+'" width="'+(wallRightX-wallLeftX+2)+'" height="'+breakH+'" fill="#fff"/>';
-  var zigL='M '+wallLeftX+' '+breakTopY, zigR='M '+wallRightX+' '+breakTopY;
-  for(var yy=breakTopY;yy<wallVisTop;yy+=8){var ny=Math.min(yy+8,wallVisTop),my=(yy+ny)/2;zigL+=' L '+(wallLeftX+4)+' '+my+' L '+wallLeftX+' '+ny;zigR+=' L '+(wallRightX-4)+' '+my+' L '+wallRightX+' '+ny;}
-  s += '<path d="'+zigL+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
-  s += '<path d="'+zigR+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
-  s += '<text x="'+((wallLeftX+wallRightX)/2)+'" y="'+((breakTopY+wallVisTop)/2+3)+'" text-anchor="middle" font-size="10" fill="#999">⋮</text>';
-
-  // 입구 (벽 바깥에 별도 영역)
-  if (isRight) {
-    var doorLeft = padL;
-    var doorRight = wallLeftX;
-    s += '<rect x="'+doorLeft+'" y="'+wallVisTop+'" width="'+(doorRight-doorLeft)+'" height="'+(-wallVisTop)+'" fill="#f5f0e8"/>';
-    s += '<line x1="'+doorLeft+'" y1="'+wallVisTop+'" x2="'+doorLeft+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
-    s += '<line x1="'+doorRight+'" y1="'+wallVisTop+'" x2="'+doorRight+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-    s += '<text x="'+((doorLeft+doorRight)/2)+'" y="'+row1CenterY+'" text-anchor="middle" font-size="9" fill="#998a6d">출입문</text>';
-  } else {
-    var doorLeft2 = wallRightX;
-    var doorRight2 = doorLeft2 + doorShowW;
-    s += '<rect x="'+doorLeft2+'" y="'+wallVisTop+'" width="'+doorShowW+'" height="'+(-wallVisTop)+'" fill="#f5f0e8"/>';
-    s += '<line x1="'+doorRight2+'" y1="'+wallVisTop+'" x2="'+doorRight2+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
-    s += '<line x1="'+doorLeft2+'" y1="'+wallVisTop+'" x2="'+doorLeft2+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-    s += '<text x="'+((doorLeft2+doorRight2)/2)+'" y="'+row1CenterY+'" text-anchor="middle" font-size="9" fill="#998a6d">출입문</text>';
-  }
-
-  // 패널 배경
-  s += '<rect x="'+panelLeft+'" y="'+panelTop+'" width="'+pw+'" height="'+ph+'" rx="3" fill="#cfd8dc" stroke="#455a64" stroke-width="1.5"/>';
-
-  // 버튼 배열
-  for (var r = 0; r < rows; r++) {
-    for (var c = 0; c < cols; c++) {
-      var cx = isRight ? col1Cx + c * gx : col1Cx - c * gx;
-      var cy = row1CenterY - r * gy;
-      s += '<circle cx="'+cx+'" cy="'+cy+'" r="'+btnR+'" fill="#fff" stroke="#37474f" stroke-width="0.8"/>';
-    }
-  }
-
-  // 치수: 바닥에서 1행 버튼 중심
-  var dimX = panelRight + 12;
-  s += '<line x1="'+dimX+'" y1="0" x2="'+dimX+'" y2="'+row1CenterY+'" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+(dimX-5)+'" y1="0" x2="'+(dimX+5)+'" y2="0" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+(dimX-5)+'" y1="'+row1CenterY+'" x2="'+(dimX+5)+'" y2="'+row1CenterY+'" stroke="#607d8b" stroke-width="1.2"/>';
-  var dm = row1CenterY / 2;
-  s += '<text x="'+(dimX+12)+'" y="'+(dm+3)+'" text-anchor="middle" font-size="9" fill="#607d8b" font-weight="700" transform="rotate(-90,'+(dimX+12)+','+dm+')">'+state3.opFromFloor+'mm</text>';
-
-  // 치수: 입구끝 벽에서 1열 중심 (패널 위쪽)
-  var dimYw = panelTop - 10;
-  var wallEdge1 = isRight ? wallLeftX : wallRightX;
-  s += '<line x1="'+Math.min(wallEdge1,col1Cx)+'" y1="'+dimYw+'" x2="'+Math.max(wallEdge1,col1Cx)+'" y2="'+dimYw+'" stroke="#455a64" stroke-width="1.2"/>';
-  s += '<line x1="'+wallEdge1+'" y1="'+(dimYw-4)+'" x2="'+wallEdge1+'" y2="'+(dimYw+4)+'" stroke="#455a64" stroke-width="1.2"/>';
-  s += '<line x1="'+col1Cx+'" y1="'+(dimYw-4)+'" x2="'+col1Cx+'" y2="'+(dimYw+4)+'" stroke="#455a64" stroke-width="1.2"/>';
-  s += '<text x="'+((wallEdge1+col1Cx)/2)+'" y="'+(dimYw-5)+'" text-anchor="middle" font-size="8" fill="#455a64" font-weight="600">'+state3.opFromWall+'mm</text>';
-
-  // 치수: 반대쪽 벽에서 끝열 중심 (그 위쪽)
-  var dimYw2 = dimYw - 18;
-  var wallEdge2 = isRight ? wallRightX : wallLeftX;
-  s += '<line x1="'+Math.min(wallEdge2,colLastCx)+'" y1="'+dimYw2+'" x2="'+Math.max(wallEdge2,colLastCx)+'" y2="'+dimYw2+'" stroke="#607d8b" stroke-width="1.2" stroke-dasharray="3,2"/>';
-  s += '<line x1="'+wallEdge2+'" y1="'+(dimYw2-4)+'" x2="'+wallEdge2+'" y2="'+(dimYw2+4)+'" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+colLastCx+'" y1="'+(dimYw2-4)+'" x2="'+colLastCx+'" y2="'+(dimYw2+4)+'" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<text x="'+((wallEdge2+colLastCx)/2)+'" y="'+(dimYw2-5)+'" text-anchor="middle" font-size="8" fill="#607d8b" font-weight="600">'+state3.opFromWall2+'mm</text>';
-
-  s += '</svg>';
-  document.getElementById('svgBox3').style.aspectRatio = viewW+' / '+viewH;
-  document.getElementById('svgBox3').innerHTML = s;
+  s+='</svg>';
+  document.getElementById('svgBox3').style.aspectRatio=viewW+' / '+viewH;
+  document.getElementById('svgBox3').innerHTML=s;
 }
 
 /* ===== 안쪽 장애인용 버튼 입면도 ===== */
 function renderAccPanel() {
-  var S = 0.18;
-  function p(mm) { return mm * S; }
-  var fromFloor = p(state4.accFromFloor);
-  var fromFront = p(state4.accFromFront);
-  var fromBack = p(state4.accFromBack);
-  var cols = state4.accCols, rows = state4.accRows;
-  var gx = p(state4.accBtnGapX), gy = p(state4.accBtnGapY);
-  var btnR = p(state4.accBtnDia) / 2;
-  var padAround = Math.max(gx, gy) * 0.8;
+  var S=0.18; function p(mm){return mm*S;}
+  var fromFloor=p(state4.accFromFloor),fromBack=p(state4.accFromBack);
+  var cols=state4.accCols,rows=state4.accRows;
+  var gx=p(state4.accBtnGapX),gy=p(state4.accBtnGapY);
+  var btnR=p(state4.accBtnDia)/2;
+  var padAround=Math.max(gx,gy)*0.8;
 
-  var gridW = (cols - 1) * gx;
-  var gridH = (rows - 1) * gy;
-  var pw = gridW + padAround * 2;
-  var ph = gridH + padAround * 2;
+  var accFromFrontMm=state.d-state4.accFromBack-(state4.accCols-1)*state4.accBtnGapX;
+  var fromFront=p(accFromFrontMm);
+  var el=document.getElementById('accFromFrontDisplay');
+  if(el) el.textContent=accFromFrontMm+'mm';
 
-  // Y: 바닥=0, 위=음수. 1행=맨 위
-  var row1CenterY = -fromFloor - gridH;
-  var rowLastCenterY = -fromFloor;
-  var panelBot = rowLastCenterY + padAround;
-  var panelTop = row1CenterY - padAround;
+  var gridW=(cols-1)*gx,gridH=(rows-1)*gy;
+  var pw=gridW+padAround*2,ph=gridH+padAround*2;
 
-  // X: 안쪽벽(뒷벽)=왼쪽, 앞벽(입구쪽)=오른쪽
-  // 1열=안쪽벽 가까이, 끝열=앞벽 가까이
-  var frontWallShow = 60;
-  var wallTotalW = fromBack + gridW + fromFront;
+  var row1CenterY=-fromFloor-gridH;
+  var rowLastCenterY=-fromFloor;
+  var panelBot=rowLastCenterY+padAround,panelTop=row1CenterY-padAround;
 
-  var padL = 40, padR = 40;
-  var wallLeftX = padL;
-  var wallRightX = padL + wallTotalW;
-  var col1Cx = wallLeftX + fromBack;
-  var colLastCx = wallRightX - fromFront;
+  var frontWallShow=60;
+  var wallTotalW=fromBack+gridW+fromFront;
+  var padL=40,padR=40;
+  var wallLeftX=padL,wallRightX=padL+wallTotalW;
+  var col1Cx=wallLeftX+fromBack,colLastCx=wallRightX-fromFront;
 
-  var panelCx = (col1Cx + colLastCx) / 2;
-  var panelLeft = panelCx - pw / 2;
-  var panelRight = panelCx + pw / 2;
+  var panelCx=(col1Cx+colLastCx)/2;
+  var panelLeft=panelCx-pw/2,panelRight=panelCx+pw/2;
 
-  var breakH = 14, aboveBreak = 20, dimAbove = 40;
-  var wallVisTop = panelTop - dimAbove;
-  var breakTopY = wallVisTop - breakH;
-  var wallVeryTopY = breakTopY - aboveBreak;
+  var breakH=14,aboveBreak=20,dimAbove=40;
+  var wallVisTop=panelTop-dimAbove;
+  var breakTopY2=wallVisTop-breakH;
+  var wallVeryTopY=breakTopY2-aboveBreak;
+  var topY=wallVeryTopY-10,botY=16,viewH=botY-topY;
+  var viewW=wallTotalW+frontWallShow+padL+padR;
 
-  var topY = wallVeryTopY - 10;
-  var botY = 16;
-  var viewH = botY - topY;
-  var viewW = wallTotalW + frontWallShow + padL + padR;
+  var s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 '+topY+' '+viewW+' '+viewH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
+  s+=drawWallBase(wallLeftX,wallRightX,wallVisTop,breakTopY2,wallVeryTopY,aboveBreak,breakH,wallLeftX,wallRightX+frontWallShow);
+  s+=drawDoorArea('front',wallLeftX,wallRightX,wallVisTop,frontWallShow,padL,rowLastCenterY);
 
-  var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 '+topY+' '+viewW+' '+viewH+'" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%">';
-
-  // 바닥
-  s += '<line x1="'+padL+'" y1="0" x2="'+(viewW-padR)+'" y2="0" stroke="#3a3a3a" stroke-width="3"/>';
-  for (var hx=padL; hx<viewW-padR; hx+=8) s += '<line x1="'+hx+'" y1="0" x2="'+(hx-5)+'" y2="7" stroke="#999" stroke-width="0.5"/>';
-
-  // 벽 아래
-  s += '<rect x="'+wallLeftX+'" y="'+wallVisTop+'" width="'+(wallRightX-wallLeftX)+'" height="'+(-wallVisTop)+'" fill="#e8e8e8"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVisTop+'" x2="'+wallLeftX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+wallVisTop+'" x2="'+wallRightX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-
-  // 벽 위
-  s += '<rect x="'+wallLeftX+'" y="'+wallVeryTopY+'" width="'+(wallRightX-wallLeftX)+'" height="'+aboveBreak+'" fill="#e8e8e8"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+wallVeryTopY+'" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+wallVeryTopY+'" x2="'+wallLeftX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+wallVeryTopY+'" x2="'+wallRightX+'" y2="'+(wallVeryTopY+aboveBreak)+'" stroke="#3a3a3a" stroke-width="2"/>';
-
-  // 생략
-  s += '<rect x="'+(wallLeftX-1)+'" y="'+breakTopY+'" width="'+(wallRightX-wallLeftX+2)+'" height="'+breakH+'" fill="#fff"/>';
-  var zigL='M '+wallLeftX+' '+breakTopY, zigR='M '+wallRightX+' '+breakTopY;
-  for(var yy=breakTopY;yy<wallVisTop;yy+=8){var ny=Math.min(yy+8,wallVisTop),my=(yy+ny)/2;zigL+=' L '+(wallLeftX+4)+' '+my+' L '+wallLeftX+' '+ny;zigR+=' L '+(wallRightX-4)+' '+my+' L '+wallRightX+' '+ny;}
-  s += '<path d="'+zigL+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
-  s += '<path d="'+zigR+'" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>';
-  s += '<text x="'+((wallLeftX+wallRightX)/2)+'" y="'+((breakTopY+wallVisTop)/2+3)+'" text-anchor="middle" font-size="10" fill="#999">⋮</text>';
-
-  // 앞벽(입구쪽) 표시
-  s += '<rect x="'+wallRightX+'" y="'+wallVisTop+'" width="'+frontWallShow+'" height="'+(-wallVisTop)+'" fill="#f5f0e8"/>';
-  s += '<line x1="'+(wallRightX+frontWallShow)+'" y1="'+wallVisTop+'" x2="'+(wallRightX+frontWallShow)+'" y2="0" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6,3"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+wallVisTop+'" x2="'+wallRightX+'" y2="0" stroke="#3a3a3a" stroke-width="2"/>';
-  s += '<text x="'+(wallRightX+frontWallShow/2)+'" y="'+row1CenterY+'" text-anchor="middle" font-size="9" fill="#998a6d">입구쪽</text>';
-
-  // 패널 배경
-  s += '<rect x="'+panelLeft+'" y="'+panelTop+'" width="'+pw+'" height="'+ph+'" rx="4" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/>';
-
-  // 버튼 배열 (1행=맨 위, 1열=안쪽벽 가까이)
-  for (var r = 0; r < rows; r++) {
-    for (var c = 0; c < cols; c++) {
-      var cx = col1Cx + c * gx;
-      var cy = row1CenterY + r * gy;
-      s += '<circle cx="'+cx+'" cy="'+cy+'" r="'+btnR+'" fill="#fff" stroke="#1b5e20" stroke-width="0.8"/>';
-    }
+  // 패널
+  s+='<rect x="'+panelLeft+'" y="'+panelTop+'" width="'+pw+'" height="'+ph+'" rx="4" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/>';
+  for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
+    var cx=col1Cx+c*gx;
+    var cy=row1CenterY+r*gy;
+    s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+btnR+'" fill="#fff" stroke="#1b5e20" stroke-width="0.8"/>';
   }
 
-  // 치수: 바닥에서 끝행(맨 아래) 버튼 중심
-  var dimX = panelRight + 12;
-  s += '<line x1="'+dimX+'" y1="0" x2="'+dimX+'" y2="'+rowLastCenterY+'" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+(dimX-5)+'" y1="0" x2="'+(dimX+5)+'" y2="0" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+(dimX-5)+'" y1="'+rowLastCenterY+'" x2="'+(dimX+5)+'" y2="'+rowLastCenterY+'" stroke="#607d8b" stroke-width="1.2"/>';
-  var dm = rowLastCenterY / 2;
-  s += '<text x="'+(dimX+12)+'" y="'+(dm+3)+'" text-anchor="middle" font-size="9" fill="#607d8b" font-weight="700" transform="rotate(-90,'+(dimX+12)+','+dm+')">'+state4.accFromFloor+'mm</text>';
+  // 치수
+  s+=dimVText(panelRight+12,0,rowLastCenterY,state4.accFromFloor+'mm');
+  s+=dimHAutoText(colLastCx,wallRightX,panelTop-10,accFromFrontMm+'mm');
+  s+=dimHText(wallLeftX,col1Cx,panelTop-28,state4.accFromBack+'mm');
 
-  // 치수: 앞벽에서 끝열 중심 (패널 위쪽)
-  var dimYw = panelTop - 10;
-  s += '<line x1="'+colLastCx+'" y1="'+dimYw+'" x2="'+wallRightX+'" y2="'+dimYw+'" stroke="#2e7d32" stroke-width="1.2"/>';
-  s += '<line x1="'+colLastCx+'" y1="'+(dimYw-4)+'" x2="'+colLastCx+'" y2="'+(dimYw+4)+'" stroke="#2e7d32" stroke-width="1.2"/>';
-  s += '<line x1="'+wallRightX+'" y1="'+(dimYw-4)+'" x2="'+wallRightX+'" y2="'+(dimYw+4)+'" stroke="#2e7d32" stroke-width="1.2"/>';
-  s += '<text x="'+((colLastCx+wallRightX)/2)+'" y="'+(dimYw-5)+'" text-anchor="middle" font-size="8" fill="#2e7d32" font-weight="600">'+state4.accFromFront+'mm</text>';
-
-  // 치수: 뒷벽에서 1열 중심 (그 위쪽)
-  var dimYw2 = dimYw - 18;
-  s += '<line x1="'+wallLeftX+'" y1="'+dimYw2+'" x2="'+col1Cx+'" y2="'+dimYw2+'" stroke="#607d8b" stroke-width="1.2" stroke-dasharray="3,2"/>';
-  s += '<line x1="'+wallLeftX+'" y1="'+(dimYw2-4)+'" x2="'+wallLeftX+'" y2="'+(dimYw2+4)+'" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<line x1="'+col1Cx+'" y1="'+(dimYw2-4)+'" x2="'+col1Cx+'" y2="'+(dimYw2+4)+'" stroke="#607d8b" stroke-width="1.2"/>';
-  s += '<text x="'+((wallLeftX+col1Cx)/2)+'" y="'+(dimYw2-5)+'" text-anchor="middle" font-size="8" fill="#607d8b" font-weight="600">'+state4.accFromBack+'mm</text>';
-
-  s += '</svg>';
-  document.getElementById('svgBox4').style.aspectRatio = viewW+' / '+viewH;
-  document.getElementById('svgBox4').innerHTML = s;
+  s+='</svg>';
+  document.getElementById('svgBox4').style.aspectRatio=viewW+' / '+viewH;
+  document.getElementById('svgBox4').innerHTML=s;
 }
 
-function updateAccSectionState() {
-  var sec = document.getElementById('accSection');
-  if (state.accessEnabled) {
-    sec.classList.remove('section-disabled');
-  } else {
-    sec.classList.add('section-disabled');
-  }
+/* ===== 복사/저장 ===== */
+function svgToCanvas(){
+  return new Promise(function(resolve,reject){
+    var svgEl=document.querySelector('#svgBox svg');
+    if(!svgEl) return reject('no svg');
+    var clone=svgEl.cloneNode(true);
+    var rect=svgEl.getBoundingClientRect();
+    var cw=rect.width||600,ch=rect.height||400;
+    clone.setAttribute('width',String(cw));clone.setAttribute('height',String(ch));
+    var str=new XMLSerializer().serializeToString(clone);
+    var dataUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(str);
+    var img=new Image();
+    img.onload=function(){
+      var scale=3;var canvas=document.createElement('canvas');
+      canvas.width=cw*scale;canvas.height=ch*scale;
+      var ctx=canvas.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas);
+    };img.onerror=reject;img.src=dataUrl;
+  });
+}
+function showMsg(txt,dur){var el=document.getElementById('copyMsg');el.textContent=txt;setTimeout(function(){el.textContent='';},dur||2500);}
+function handleCopy(){
+  svgToCanvas().then(function(canvas){
+    if(navigator.clipboard&&typeof ClipboardItem!=='undefined'){
+      canvas.toBlob(function(blob){if(blob){navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(function(){showMsg('복사 완료!');}).catch(function(){doFallbackDownload(canvas);});}else{doFallbackDownload(canvas);}}, 'image/png');
+    }else{doFallbackDownload(canvas);}
+  }).catch(function(){showMsg('복사 실패');});
+}
+function doFallbackDownload(canvas){
+  var url=canvas.toDataURL('image/png');var a=document.createElement('a');
+  a.href=url;a.download='elevator_floorplan_'+state.w+'x'+state.d+'.png';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);showMsg('클립보드 미지원 - 파일로 저장됨');
+}
+function handleSave(){
+  svgToCanvas().then(function(canvas){
+    canvas.toBlob(function(blob){if(!blob)return;var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download='elevator_floorplan_'+state.w+'x'+state.d+'.png';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},100);}, 'image/png');
+  }).catch(function(){showMsg('저장 실패');});
+}
+function elevToCanvas(boxId){
+  return new Promise(function(resolve,reject){
+    var svgEl=document.querySelector('#'+boxId+' svg');
+    if(!svgEl)return reject('no svg');
+    var clone=svgEl.cloneNode(true);var rect=svgEl.getBoundingClientRect();
+    var cw=rect.width||600,ch=rect.height||400;
+    clone.setAttribute('width',String(cw));clone.setAttribute('height',String(ch));
+    var str=new XMLSerializer().serializeToString(clone);
+    var dataUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(str);
+    var img=new Image();
+    img.onload=function(){var scale=3;var canvas=document.createElement('canvas');
+    canvas.width=cw*scale;canvas.height=ch*scale;var ctx=canvas.getContext('2d');
+    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas);};
+    img.onerror=reject;img.src=dataUrl;
+  });
+}
+function getMsgEl(boxId){var map={svgBox2:'copyMsg2',svgBox3:'copyMsg3',svgBox4:'copyMsg4'};return document.getElementById(map[boxId]||'copyMsg2');}
+function handleCopyElev(boxId){
+  var msgEl=getMsgEl(boxId);
+  elevToCanvas(boxId).then(function(canvas){
+    if(navigator.clipboard&&typeof ClipboardItem!=='undefined'){
+      canvas.toBlob(function(blob){if(blob){navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(function(){
+        msgEl.textContent='복사 완료!';setTimeout(function(){msgEl.textContent='';},2500);
+      }).catch(function(){doElevFallback(canvas,boxId,msgEl);});}else{doElevFallback(canvas,boxId,msgEl);}}, 'image/png');
+    }else{doElevFallback(canvas,boxId,msgEl);}
+  }).catch(function(){msgEl.textContent='복사 실패';setTimeout(function(){msgEl.textContent='';},2500);});
+}
+function handleSaveElev(boxId,name){
+  elevToCanvas(boxId).then(function(canvas){
+    canvas.toBlob(function(blob){if(!blob)return;var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download=name+'_'+state.w+'x'+state.d+'.png';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},100);}, 'image/png');
+  }).catch(function(){});
+}
+function doElevFallback(canvas,boxId,msgEl){
+  var url=canvas.toDataURL('image/png');var a=document.createElement('a');
+  a.href=url;a.download=boxId+'.png';document.body.appendChild(a);a.click();document.body.removeChild(a);
+  msgEl.textContent='클립보드 미지원 - 파일로 저장됨';setTimeout(function(){msgEl.textContent='';},2500);
 }
 
-/* ===== CSV 내보내기 / 불러오기 ===== */
-function getAllValues() {
-  var all = {};
-  // state
-  for (var k in state) all['state.' + k] = state[k];
-  // state2
-  for (var k in state2) all['state2.' + k] = state2[k];
-  // state3
-  for (var k in state3) all['state3.' + k] = state3[k];
-  // state4
-  for (var k in state4) all['state4.' + k] = state4[k];
-  // 라디오 값
-  all['radio.outerBtn'] = state.outerBtn;
-  all['radio.innerBtn'] = state.innerBtn;
-  all['radio.accessBtn'] = state.accessBtn;
-  all['check.accessEnabled'] = state.accessEnabled ? 1 : 0;
+/* ===== 장애인 섹션 토글 ===== */
+function updateAccSectionState(){
+  var sec=document.getElementById('accSection');
+  if(state.accessEnabled) sec.classList.remove('section-disabled');
+  else sec.classList.add('section-disabled');
+}
+
+/* ===== CSV ===== */
+function getAllValues(){
+  var all={};
+  for(var k in state) all['state.'+k]=state[k];
+  for(var k in state2) all['state2.'+k]=state2[k];
+  for(var k in state3) all['state3.'+k]=state3[k];
+  for(var k in state4) all['state4.'+k]=state4[k];
   return all;
 }
-
-function exportCSV() {
-  var vals = getAllValues();
-  var lines = ['항목,값'];
-  for (var k in vals) {
-    lines.push(k + ',' + vals[k]);
-  }
-  var csv = lines.join('\n');
-  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'elevator_settings_' + state.w + 'x' + state.d + '.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(function() { URL.revokeObjectURL(url); }, 100);
+function exportCSV(){
+  var vals=getAllValues();var lines=['항목,값'];
+  for(var k in vals) lines.push(k+','+vals[k]);
+  var csv=lines.join('\n');
+  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);var a=document.createElement('a');
+  a.href=url;a.download='elevator_settings_'+state.w+'x'+state.d+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},100);
 }
-
-function importCSV(event) {
-  var file = event.target.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var text = e.target.result;
-    var lines = text.split('\n');
-    for (var i = 1; i < lines.length; i++) {
-      var line = lines[i].trim();
-      if (!line) continue;
-      var idx = line.indexOf(',');
-      if (idx < 0) continue;
-      var key = line.substring(0, idx).trim();
-      var val = line.substring(idx + 1).trim();
-
-      if (key.indexOf('state.') === 0) {
-        var sk = key.substring(6);
-        if (sk in state) {
-          if (sk === 'outerBtn' || sk === 'innerBtn' || sk === 'accessBtn') {
-            state[sk] = val;
-          } else if (sk === 'accessEnabled') {
-            state[sk] = val === '1' || val === 'true';
-          } else {
-            state[sk] = Number(val);
-          }
+function importCSV(event){
+  var file=event.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var lines=e.target.result.split('\n');
+    for(var i=1;i<lines.length;i++){
+      var line=lines[i].trim();if(!line)continue;
+      var idx=line.indexOf(',');if(idx<0)continue;
+      var key=line.substring(0,idx).trim(),val=line.substring(idx+1).trim();
+      if(key.indexOf('state.')=== 0){
+        var sk=key.substring(6);
+        if(sk in state){
+          if(sk==='outerBtn'||sk==='innerBtn'||sk==='accessBtn') state[sk]=val;
+          else if(sk==='accessEnabled') state[sk]=val==='1'||val==='true';
+          else state[sk]=Number(val);
         }
-      } else if (key.indexOf('state2.') === 0) {
-        var sk2 = key.substring(7);
-        if (sk2 in state2) state2[sk2] = Number(val);
-      } else if (key.indexOf('state3.') === 0) {
-        var sk3 = key.substring(7);
-        if (sk3 in state3) state3[sk3] = Number(val);
-      } else if (key.indexOf('state4.') === 0) {
-        var sk4 = key.substring(7);
-        if (sk4 in state4) state4[sk4] = Number(val);
-      } else if (key === 'radio.outerBtn') {
-        state.outerBtn = val;
-      } else if (key === 'radio.innerBtn') {
-        state.innerBtn = val;
-      } else if (key === 'radio.accessBtn') {
-        state.accessBtn = val;
-      } else if (key === 'check.accessEnabled') {
-        state.accessEnabled = val === '1' || val === 'true';
-      }
+      } else if(key.indexOf('state2.')===0){var sk2=key.substring(7);if(sk2 in state2)state2[sk2]=Number(val);}
+      else if(key.indexOf('state3.')===0){var sk3=key.substring(7);if(sk3 in state3)state3[sk3]=Number(val);}
+      else if(key.indexOf('state4.')===0){var sk4=key.substring(7);if(sk4 in state4)state4[sk4]=Number(val);}
     }
-    syncUIFromState();
-    updateAccSectionState();
-    renderAll();
+    syncUIFromState();updateAccSectionState();renderAll();
   };
-  reader.readAsText(file);
-  event.target.value = '';
+  reader.readAsText(file);event.target.value='';
 }
-
-function syncUIFromState() {
-  // 숫자 입력 동기화
-  var numMap = {
-    'inp_w': state.w, 'inp_d': state.d, 'inp_doorW': state.doorW,
-    'inp_extWall': state.extWall, 'inp_accessDist': state.accessDist,
-    'inp_btnDist': state.btnDist,
-    'inp_callFromFloor': state2.callFromFloor, 'inp_callBtnGap': state2.callBtnGap,
-    'inp_callBtnDia': state2.callBtnDia, 'inp_callFromWall': state2.callFromWall,
-    'inp_opFromFloor': state3.opFromFloor, 'inp_opFromWall': state3.opFromWall,
-    'inp_opFromWall2': state3.opFromWall2, 'inp_opCols': state3.opCols,
-    'inp_opRows': state3.opRows, 'inp_opBtnGapX': state3.opBtnGapX,
-    'inp_opBtnGapY': state3.opBtnGapY, 'inp_opBtnDia': state3.opBtnDia,     'inp_accFromFloor': state4.accFromFloor,
-    'inp_accFromFront': state4.accFromFront, 'inp_accFromBack': state4.accFromBack,
-    'inp_accCols': state4.accCols,
-    'inp_accRows': state4.accRows, 'inp_accBtnGapX': state4.accBtnGapX,
-    'inp_accBtnGapY': state4.accBtnGapY, 'inp_accBtnDia': state4.accBtnDia
+function syncUIFromState(){
+  var numMap={
+    'inp_w':state.w,'inp_d':state.d,'inp_doorW':state.doorW,
+    'inp_extWall':state.extWall,'inp_btnDist':state.btnDist,
+    'inp_callFromFloor':state2.callFromFloor,'inp_callBtnGap':state2.callBtnGap,
+    'inp_callBtnDia':state2.callBtnDia,'inp_callFromWall':state2.callFromWall,
+    'inp_opFromFloor':state3.opFromFloor,'inp_opFromWall':state3.opFromWall,
+    'inp_opFromWall2':state3.opFromWall2,'inp_opCols':state3.opCols,
+    'inp_opRows':state3.opRows,'inp_opBtnGapX':state3.opBtnGapX,
+    'inp_opBtnGapY':state3.opBtnGapY,'inp_opBtnDia':state3.opBtnDia,
+    'inp_accFromFloor':state4.accFromFloor,'inp_accFromBack':state4.accFromBack,
+    'inp_accCols':state4.accCols,'inp_accRows':state4.accRows,
+    'inp_accBtnGapX':state4.accBtnGapX,'inp_accBtnGapY':state4.accBtnGapY,
+    'inp_accBtnDia':state4.accBtnDia
   };
-  for (var id in numMap) {
-    var el = document.getElementById(id);
-    if (el) el.value = numMap[id];
-  }
-  // 라디오 동기화
-  var radios = { outerBtn: state.outerBtn, innerBtn: state.innerBtn, accessBtn: state.accessBtn };
-  for (var name in radios) {
-    var els = document.querySelectorAll('input[name="' + name + '"]');
-    els.forEach(function(el) { el.checked = el.value === radios[name]; });
-  }
-  // 체크박스 동기화
-  var chk = document.getElementById('chk_access');
-  if (chk) {
-    chk.checked = state.accessEnabled;
-    document.getElementById('accessOptions').style.display = state.accessEnabled ? '' : 'none';
-  }
+  for(var id in numMap){var el=document.getElementById(id);if(el)el.value=numMap[id];}
+  var radios={outerBtn:state.outerBtn,innerBtn:state.innerBtn,accessBtn:state.accessBtn};
+  for(var name in radios){document.querySelectorAll('input[name="'+name+'"]').forEach(function(el){el.checked=el.value===radios[name];});}
+  var chk=document.getElementById('chk_access');
+  if(chk){chk.checked=state.accessEnabled;document.getElementById('accessOptions').style.display=state.accessEnabled?'':'none';}
 }
 
 /* ===== 초기화 ===== */
@@ -1108,24 +808,19 @@ document.addEventListener('DOMContentLoaded', function() {
   setupNumberInput('inp_d','d',800,3000);
   setupNumberInput('inp_doorW','doorW',600,function(){return state.w-100;});
   setupNumberInput('inp_extWall','extWall',0,1000);
-  setupNumberInput('inp_accessDist','accessDist',100,function(){return state.d;});
   setupRadio('outerBtn','outerBtn');
   setupRadio('innerBtn','innerBtn');
   setupRadio('accessBtn','accessBtn');
-
-  document.getElementById('chk_access').addEventListener('change', function() {
-    state.accessEnabled = this.checked;
-    document.getElementById('accessOptions').style.display = this.checked ? '' : 'none';
-    updateAccSectionState();
-    renderAll();
+  document.getElementById('chk_access').addEventListener('change', function(){
+    state.accessEnabled=this.checked;
+    document.getElementById('accessOptions').style.display=this.checked?'':'none';
+    updateAccSectionState();renderAll();
   });
-
   setupBtnDistInput();
   setupNumberInput2('inp_callFromFloor','callFromFloor',100,2000);
   setupNumberInput2('inp_callBtnGap','callBtnGap',10,300);
   setupNumberInput2('inp_callBtnDia','callBtnDia',15,100);
   setupNumberInput2('inp_callFromWall','callFromWall',20,1000);
-
   setupNumberInput3('inp_opFromFloor','opFromFloor',100,2000);
   setupNumberInput3('inp_opFromWall','opFromWall',10,500);
   setupNumberInput3('inp_opFromWall2','opFromWall2',10,500);
@@ -1134,16 +829,14 @@ document.addEventListener('DOMContentLoaded', function() {
   setupNumberInput3('inp_opBtnGapX','opBtnGapX',15,100);
   setupNumberInput3('inp_opBtnGapY','opBtnGapY',15,100);
   setupNumberInput3('inp_opBtnDia','opBtnDia',5,60);
-
   setupNumberInput4('inp_accFromFloor','accFromFloor',100,1500);
-  setupNumberInput4('inp_accFromFront','accFromFront',50,2000);
   setupNumberInput4('inp_accFromBack','accFromBack',20,2000);
   setupNumberInput4('inp_accCols','accCols',1,20);
   setupNumberInput4('inp_accRows','accRows',1,20);
   setupNumberInput4('inp_accBtnGapX','accBtnGapX',15,150);
   setupNumberInput4('inp_accBtnGapY','accBtnGapY',15,150);
   setupNumberInput4('inp_accBtnDia','accBtnDia',10,80);
-
+  updateAccSectionState();
   renderAll();
 });
 </script>
